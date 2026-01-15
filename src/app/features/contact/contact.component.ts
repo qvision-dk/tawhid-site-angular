@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PrayerTimesComponent } from '../../components/widgets/prayer-times.component';
-import { UpcomingWidgetComponent } from '../../components/widgets/upcoming-widget.component';
+import { PrayerTimesComponent } from '../../shared/widgets/prayer-times.component';
+import { UpcomingWidgetComponent } from '../../shared/widgets/upcoming-widget.component';
 
 @Component({
   selector: 'app-contact',

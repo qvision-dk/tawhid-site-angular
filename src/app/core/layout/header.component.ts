@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ThemeService } from '../../services/theme.service';
+import { ThemeService } from '../services/theme.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
