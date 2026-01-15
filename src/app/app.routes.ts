@@ -1,15 +1,35 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
-import { ActivitiesComponent } from './features/activities/activities.component';
-import { MembersComponent } from './features/members/members.component';
-import { AboutComponent } from './features/about/about.component';
-import { ContactComponent } from './features/contact/contact.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'aktiviteter', component: ActivitiesComponent },
-  { path: 'medlemmer', component: MembersComponent },
-  { path: 'om-os', component: AboutComponent },
-  { path: 'kontakt', component: ContactComponent },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/home/home.component')
+        .then(m => m.HomeComponent)
+  },
+  {
+    path: 'aktiviteter',
+    loadComponent: () =>
+      import('./features/activities/activities.component')
+        .then(m => m.ActivitiesComponent)
+  },
+  {
+    path: 'medlemmer',
+    loadComponent: () =>
+      import('./features/members/members.component')
+        .then(m => m.MembersComponent)
+  },
+  {
+    path: 'om-os',
+    loadComponent: () =>
+      import('./features/about/about.component')
+        .then(m => m.AboutComponent)
+  },
+  {
+    path: 'kontakt',
+    loadComponent: () =>
+      import('./features/contact/contact.component')
+        .then(m => m.ContactComponent)
+  },
   { path: '**', redirectTo: '' }
 ];
