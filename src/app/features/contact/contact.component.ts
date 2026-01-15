@@ -1,30 +1,56 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { PrayerTimesComponent } from '../../shared/widgets/prayer-times.component';
 import { UpcomingWidgetComponent } from '../../shared/widgets/upcoming-widget.component';
+import { ContactService } from './contact.service';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, PrayerTimesComponent, UpcomingWidgetComponent],
-  templateUrl: './contact.component.html'
+  templateUrl: './contact.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ContactService]
 })
 export class ContactComponent {
-  contactForm: FormGroup;
-  isSubmitting = signal(false);
-  successMessage = signal(false);
+  private readonly contactService = inject(ContactService);
+  
+  readonly contactForm: FormGroup;
+  readonly isSubmitting = signal(false);
+  readonly successMessage = signal(false);
 
-  constructor(private fb: FormBuilder) {
-    this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      subject: [''],
-      message: ['', Validators.required]
-    });
+  readonly nameControl = computed(() => this.contactForm.get('name'));
+  readonly emailControl = computed(() => this.contactForm.get('email'));
+  readonly messageControl = computed(() => this.contactForm.get('message'));
+
+  readonly showNameError = computed(() => {
+    const control = this.nameControl();
+    return control ? control.touched && control.invalid : false;
+  });
+
+  readonly showEmailError = computed(() => {
+    const control = this.emailControl();
+    return control ? control.touched && control.invalid : false;
+  });
+
+  readonly showMessageError = computed(() => {
+    const control = this.messageControl();
+    return control ? control.touched && control.invalid : false;
+  });
+
+  readonly isFormInvalid = computed(() => this.contactForm.invalid);
+  readonly isSubmitDisabled = computed(() => this.isFormInvalid() || this.isSubmitting());
+
+  readonly submitButtonText = computed(() => 
+    this.isSubmitting() ? 'Sender...' : 'Send Besked'
+  );
+
+  constructor() {
+    this.contactForm = this.contactService.createContactForm();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.contactForm.valid) {
       this.isSubmitting.set(true);
       // Simulate API call

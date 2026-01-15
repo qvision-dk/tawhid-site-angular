@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../services/theme.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-header',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <header class="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:py-6">
       <nav class="max-w-7xl mx-auto glass-nav rounded-full px-6 py-3 flex items-center justify-between shadow-lg shadow-black/5 dark:shadow-black/20 transition-all duration-300 relative z-50">
@@ -50,7 +51,7 @@ import { CommonModule } from '@angular/common';
           
           <!-- Mobile Menu Button -->
           <button (click)="toggleMenu()" class="md:hidden w-10 h-10 flex items-center justify-center text-secondary dark:text-white z-50 relative">
-            <span class="material-icons-round">{{ isMenuOpen() ? 'close' : 'menu' }}</span>
+            <span class="material-icons-round">{{ menuIcon() }}</span>
           </button>
         </div>
       </nav>
@@ -88,9 +89,9 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   themeService = inject(ThemeService);
-  isMenuOpen = signal(false);
+  readonly isMenuOpen = signal(false);
 
-  links = [
+  readonly links = [
     { path: '/', label: 'Home', exact: true },
     { path: '/aktiviteter', label: 'Aktiviteter', exact: false },
     { path: '/om-os', label: 'Om Tawhid', exact: false },
@@ -98,11 +99,13 @@ export class HeaderComponent {
     { path: '/kontakt', label: 'Kontakt', exact: false }
   ];
 
-  toggleMenu() {
+  readonly menuIcon = computed(() => this.isMenuOpen() ? 'close' : 'menu');
+
+  toggleMenu(): void {
     this.isMenuOpen.update(v => !v);
   }
 
-  closeMenu() {
+  closeMenu(): void {
     this.isMenuOpen.set(false);
   }
 }

@@ -5,8 +5,8 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class ThemeService {
-  isDark = signal<boolean>(false);
-  private platformId = inject(PLATFORM_ID);
+  readonly isDark = signal<boolean>(false);
+  private readonly platformId = inject(PLATFORM_ID);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -27,7 +27,7 @@ export class ThemeService {
     });
   }
 
-  toggle() {
+  toggle(): void {
     this.isDark.update(d => !d);
   }
 }

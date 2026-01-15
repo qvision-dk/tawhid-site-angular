@@ -17,17 +17,7 @@
       @for(filter of filters; track filter) {
         <button 
           (click)="activeFilter.set(filter)"
-          [class.bg-secondary]="activeFilter() === filter"
-          [class.text-white]="activeFilter() === filter"
-          [class.bg-white]="activeFilter() !== filter"
-          [class.text-slate-600]="activeFilter() !== filter"
-          [class.dark:bg-white]="activeFilter() === filter && filter === 'Alle'" 
-          [class.dark:text-slate-900]="activeFilter() === filter && filter === 'Alle'"
-          [class.dark:bg-slate-800]="activeFilter() !== filter"
-          [class.dark:text-slate-400]="activeFilter() !== filter"
-          class="px-6 py-2.5 rounded-full text-sm font-bold shadow-sm border border-transparent transition-all hover:scale-105"
-          [class.border-slate-200]="activeFilter() !== filter"
-          [class.dark:border-slate-700]="activeFilter() !== filter"
+          [class]="getFilterButtonClasses(filter)"
         >
           {{filter}}
         </button>

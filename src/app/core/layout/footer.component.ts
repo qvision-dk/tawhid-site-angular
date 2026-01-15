@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
   imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-16 mt-auto">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

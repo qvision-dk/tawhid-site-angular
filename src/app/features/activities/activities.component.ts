@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrayerTimesComponent } from '../../shared/widgets/prayer-times.component';
 import { UpcomingWidgetComponent } from '../../shared/widgets/upcoming-widget.component';
@@ -18,13 +18,14 @@ interface Activity {
   selector: 'app-activities',
   standalone: true,
   imports: [CommonModule, PrayerTimesComponent, UpcomingWidgetComponent],
-  templateUrl: './activities.component.html'
+  templateUrl: './activities.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivitiesComponent {
-  activeFilter = signal<string>('Alle');
-  filters = ['Alle', 'Bøn', 'Undervisning', 'Ungdom', 'Fællesskab'];
+  readonly activeFilter = signal<string>('Alle');
+  readonly filters = ['Alle', 'Bøn', 'Undervisning', 'Ungdom', 'Fællesskab'];
 
-  activities = signal<Activity[]>([
+  readonly activities = signal<Activity[]>([
     {
       title: 'Fredagssammenkomst',
       category: 'Bøn',
@@ -57,9 +58,20 @@ export class ActivitiesComponent {
     }
   ]);
 
-  filteredActivities = computed(() => {
+  readonly filteredActivities = computed(() => {
     const filter = this.activeFilter();
     if (filter === 'Alle') return this.activities();
     return this.activities().filter(a => a.category === filter);
   });
+
+  getFilterButtonClasses(filter: string) {
+    const isActive = this.activeFilter() === filter;
+    const baseClasses = 'px-6 py-2.5 rounded-full text-sm font-bold shadow-sm border transition-all hover:scale-105';
+    
+    if (isActive) {
+      return `${baseClasses} bg-secondary text-white border-transparent dark:bg-white dark:text-slate-900`;
+    }
+    
+    return `${baseClasses} bg-white text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700`;
+  }
 }
