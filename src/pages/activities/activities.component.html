@@ -1,0 +1,76 @@
+<div class="pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+  <div class="flex flex-col lg:flex-row gap-12">
+    
+    <!-- Main Content -->
+    <div class="flex-1">
+      <div class="mb-12 animate-fade-in">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+          <span class="material-icons-round text-sm">event_available</span> Aktiviteter
+        </span>
+        <h2 class="text-5xl md:text-6xl font-display font-extrabold text-slate-900 dark:text-white mb-6">Vores Aktiviteter</h2>
+        <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
+          Vi tilbyder en bred vifte af aktiviteter for alle aldersgrupper. Her er et overblik over vores ugentlige programmer i hjertet af København.
+        </p>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-3 mb-12">
+        @for(filter of filters; track filter) {
+          <button 
+            (click)="activeFilter.set(filter)"
+            [class.bg-secondary]="activeFilter() === filter"
+            [class.text-white]="activeFilter() === filter"
+            [class.bg-white]="activeFilter() !== filter"
+            [class.text-slate-600]="activeFilter() !== filter"
+            [class.dark:bg-white]="activeFilter() === filter && filter === 'Alle'" 
+            [class.dark:text-slate-900]="activeFilter() === filter && filter === 'Alle'"
+            [class.dark:bg-slate-800]="activeFilter() !== filter"
+            [class.dark:text-slate-400]="activeFilter() !== filter"
+            class="px-6 py-2.5 rounded-full text-sm font-bold shadow-sm border border-transparent transition-all hover:scale-105"
+            [class.border-slate-200]="activeFilter() !== filter"
+            [class.dark:border-slate-700]="activeFilter() !== filter"
+          >
+            {{filter}}
+          </button>
+        }
+      </div>
+
+      <!-- Activity Cards -->
+      <div class="space-y-6">
+        @for(activity of filteredActivities(); track activity.title) {
+          <div class="activity-card group bg-white dark:bg-[#1e293b]/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row gap-8 items-start hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <div [class]="'w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm shrink-0 ' + activity.colorClass">
+              <span class="material-icons-round text-3xl">{{activity.icon}}</span>
+            </div>
+            
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3 flex-wrap">
+                <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white">{{activity.title}}</h3>
+                <span class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">Ugentlig</span>
+              </div>
+              
+              <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                {{activity.description}}
+              </p>
+              
+              <div class="flex flex-wrap gap-4">
+                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <span [class]="'material-icons-round text-sm ' + activity.iconColorClass">event</span> {{activity.day}}
+                </div>
+                <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <span [class]="'material-icons-round text-sm ' + activity.iconColorClass">schedule</span> {{activity.time}}
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="w-full lg:w-96 space-y-8">
+      <app-prayer-times></app-prayer-times>
+      <app-upcoming-widget></app-upcoming-widget>
+    </aside>
+  </div>
+</div>
