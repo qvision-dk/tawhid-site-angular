@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-16 mt-auto">
-      <div class="container mx-auto px-6 max-w-7xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-center gap-8">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 bg-secondary dark:bg-slate-800 rounded-full flex items-center justify-center text-primary">

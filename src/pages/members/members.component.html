@@ -1,134 +1,131 @@
-<div class="pt-32 pb-20 px-4 max-w-7xl mx-auto">
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-    <div class="lg:col-span-8 space-y-12">
-      <!-- Header -->
-      <section>
-        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-full text-amber-700 dark:text-amber-400 text-xs font-semibold mb-6">
-          <span class="material-icons-round text-sm">stars</span>
-          Medlemskab
-        </div>
-        <h2 class="font-display text-6xl md:text-7xl text-secondary dark:text-white mb-6">Bliv Medlem</h2>
-        <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl leading-relaxed">
-          Støt fællesskabet og få adgang til eksklusive fordele. Vi ser frem til at byde dig velkommen.
-        </p>
-      </section>
+<div class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+  <div class="lg:col-span-8 space-y-12">
+    <!-- Header -->
+    <section>
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+        <span class="material-icons-round text-sm">stars</span> Medlemskab
+      </span>
+      <h2 class="font-display text-6xl md:text-7xl text-secondary dark:text-white mb-6">Bliv Medlem</h2>
+      <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl leading-relaxed">
+        Støt fællesskabet og få adgang til eksklusive fordele. Vi ser frem til at byde dig velkommen.
+      </p>
+    </section>
 
-      <!-- Membership Plans -->
-      <section class="grid md:grid-cols-2 gap-8">
-        <!-- Individual Plan -->
-        <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none flex flex-col hover:-translate-y-1 transition-transform duration-300">
-          <div class="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-secondary dark:text-slate-300 mb-8">
-            <span class="material-icons-round text-3xl">person</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-4 text-secondary dark:text-white">Individuel</h3>
-          <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">For enkeltpersoner der ønsker at være del af fællesskabet</p>
-          <ul class="space-y-4 mb-10 flex-grow">
-            <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
-              Adgang til alle aktiviteter
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
-              Ugentlig nyhedsbrev
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
-              Gratis undervisning
-            </li>
-          </ul>
-          <button class="w-full bg-secondary hover:bg-slate-800 text-white font-semibold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group">
-            Vælg Individuel
-            <span class="material-icons-round text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
-          </button>
+    <!-- Membership Plans -->
+    <section class="grid md:grid-cols-2 gap-8">
+      <!-- Individual Plan -->
+      <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none flex flex-col hover:-translate-y-1 transition-transform duration-300">
+        <div class="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-secondary dark:text-slate-300 mb-8">
+          <span class="material-icons-round text-3xl">person</span>
         </div>
+        <h3 class="text-2xl font-bold mb-4 text-secondary dark:text-white">Individuel</h3>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">For enkeltpersoner der ønsker at være del af fællesskabet</p>
+        <ul class="space-y-4 mb-10 flex-grow">
+          <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+            <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
+            Adgang til alle aktiviteter
+          </li>
+          <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+            <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
+            Ugentlig nyhedsbrev
+          </li>
+          <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+            <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
+            Gratis undervisning
+          </li>
+        </ul>
+        <button class="w-full bg-secondary hover:bg-slate-800 text-white font-semibold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group">
+          Vælg Individuel
+          <span class="material-icons-round text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+        </button>
+      </div>
 
-        <!-- Family Plan -->
-        <div class="relative bg-white dark:bg-slate-900 p-8 rounded-[2rem] border-2 border-primary shadow-xl shadow-amber-200/20 dark:shadow-none flex flex-col hover:-translate-y-1 transition-transform duration-300">
-          <div class="absolute -top-3 right-8 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-            Populær
-          </div>
-          <div class="w-14 h-14 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-primary mb-8">
-            <span class="material-icons-round text-3xl">group</span>
-          </div>
-          <h3 class="text-2xl font-bold mb-4 text-secondary dark:text-white">Familie</h3>
-          <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">For hele familien - alle medlemmer får adgang</p>
-          <ul class="space-y-4 mb-10 flex-grow">
-            <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
-              Alt i Individuel
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
-              Børneaktiviteter inkluderet
-            </li>
-            <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
-              <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
-              Familie-arrangementer
-            </li>
-          </ul>
-          <button class="w-full bg-gradient-to-r from-primary to-amber-600 hover:opacity-90 text-white font-semibold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group">
-            Vælg Familie
-            <span class="material-icons-round text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
-          </button>
+      <!-- Family Plan -->
+      <div class="relative bg-white dark:bg-slate-900 p-8 rounded-[2rem] border-2 border-primary shadow-xl shadow-amber-200/20 dark:shadow-none flex flex-col hover:-translate-y-1 transition-transform duration-300">
+        <div class="absolute -top-3 right-8 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          Populær
         </div>
-      </section>
+        <div class="w-14 h-14 bg-amber-50 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-primary mb-8">
+          <span class="material-icons-round text-3xl">group</span>
+        </div>
+        <h3 class="text-2xl font-bold mb-4 text-secondary dark:text-white">Familie</h3>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mb-8">For hele familien - alle medlemmer får adgang</p>
+        <ul class="space-y-4 mb-10 flex-grow">
+          <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+            <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
+            Alt i Individuel
+          </li>
+          <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+            <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
+            Børneaktiviteter inkluderet
+          </li>
+          <li class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-300">
+            <span class="material-icons-round text-amber-500 text-lg">check_circle</span>
+            Familie-arrangementer
+          </li>
+        </ul>
+        <button class="w-full bg-gradient-to-r from-primary to-amber-600 hover:opacity-90 text-white font-semibold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group">
+          Vælg Familie
+          <span class="material-icons-round text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+        </button>
+      </div>
+    </section>
 
-      <!-- Benefits Grid -->
-      <section class="bg-white dark:bg-slate-900/50 p-10 rounded-[2rem] border border-slate-100 dark:border-slate-800">
-        <div class="flex items-center gap-4 mb-10">
-          <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-600">
-            <span class="material-icons-round">stars</span>
-          </div>
-          <div>
-            <h3 class="text-xl font-bold text-secondary dark:text-white">Medlemsfordele</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400">Alt hvad du får som medlem</p>
-          </div>
+    <!-- Benefits Grid -->
+    <section class="bg-white dark:bg-slate-900/50 p-10 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+      <div class="flex items-center gap-4 mb-10">
+        <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-600">
+          <span class="material-icons-round">stars</span>
         </div>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-            <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-              <span class="material-icons-round text-sm">star</span>
-            </div>
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Adgang til alle aktiviteter og arrangementer</span>
-          </div>
-          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-            <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-              <span class="material-icons-round text-sm">star</span>
-            </div>
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Deltagelse i fredagssammenkomster</span>
-          </div>
-          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-            <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-              <span class="material-icons-round text-sm">card_giftcard</span>
-            </div>
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Gratis undervisning i arabisk og Koran</span>
-          </div>
-          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-            <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-              <span class="material-icons-round text-sm">star</span>
-            </div>
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Børneaktiviteter og ungdomsprogrammer</span>
-          </div>
-          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-            <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-              <span class="material-icons-round text-sm">card_giftcard</span>
-            </div>
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Fællesspisning og sociale arrangementer</span>
-          </div>
-          <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-            <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-              <span class="material-icons-round text-sm">star</span>
-            </div>
-            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Del af et varmt og støttende fællesskab</span>
-          </div>
+        <div>
+          <h3 class="text-xl font-bold text-secondary dark:text-white">Medlemsfordele</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400">Alt hvad du får som medlem</p>
         </div>
-      </section>
-    </div>
-
-    <!-- Sidebar -->
-    <aside class="lg:col-span-4 space-y-8">
-      <app-prayer-times></app-prayer-times>
-      <app-upcoming-widget></app-upcoming-widget>
-    </aside>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
+          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
+            <span class="material-icons-round text-sm">star</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Adgang til alle aktiviteter og arrangementer</span>
+        </div>
+        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
+          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
+            <span class="material-icons-round text-sm">star</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Deltagelse i fredagssammenkomster</span>
+        </div>
+        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
+          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
+            <span class="material-icons-round text-sm">card_giftcard</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Gratis undervisning i arabisk og Koran</span>
+        </div>
+        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
+          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
+            <span class="material-icons-round text-sm">star</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Børneaktiviteter og ungdomsprogrammer</span>
+        </div>
+        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
+          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
+            <span class="material-icons-round text-sm">card_giftcard</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Fællesspisning og sociale arrangementer</span>
+        </div>
+        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
+          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
+            <span class="material-icons-round text-sm">star</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Del af et varmt og støttende fællesskab</span>
+        </div>
+      </div>
+    </section>
   </div>
+
+  <!-- Sidebar -->
+  <aside class="lg:col-span-4 space-y-8">
+    <app-prayer-times></app-prayer-times>
+    <app-upcoming-widget></app-upcoming-widget>
+  </aside>
 </div>
