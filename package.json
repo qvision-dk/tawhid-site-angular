@@ -2,11 +2,14 @@
   "name": "tawhid-islamisk-trossamfund",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "ng build --configuration=production",
-    "test": "ng test"
+    "start": "bash scripts/start.sh",
+    "start:clean": "bash scripts/start-clean.sh",
+    "build": "npx ng build",
+    "build:prod": "npx ng build --configuration=production",
+    "reset": "bash scripts/reset.sh",
+    "test": "npx ng test"
   },
   "dependencies": {
     "@angular/animations": "^21.1.0",
