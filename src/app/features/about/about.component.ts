@@ -1,12 +1,14 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PrayerTimesComponent } from '../../shared/widgets/prayer-times.component';
-import { UpcomingWidgetComponent } from '../../shared/widgets/upcoming-widget.component';
+import { AboutHeroComponent } from './components/about-hero.component';
+import { AboutMissionComponent } from './components/about-mission.component';
+import { AboutValuesComponent } from './components/about-values.component';
+import { AboutSidebarComponent } from './components/about-sidebar.component';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, PrayerTimesComponent, UpcomingWidgetComponent],
+  imports: [CommonModule, AboutHeroComponent, AboutMissionComponent, AboutValuesComponent, AboutSidebarComponent],
   templateUrl: './about.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

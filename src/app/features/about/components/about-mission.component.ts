@@ -1,0 +1,32 @@
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-about-mission',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <!-- Mission -->
+    <section class="bg-white dark:bg-slate-800 rounded-[2rem] p-8 md:p-12 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-20 h-1 bg-primary"></div>
+      <div class="islamic-pattern absolute inset-0 opacity-30 pointer-events-none"></div>
+      
+      <div class="relative z-10 space-y-8">
+        <h2 class="font-display text-3xl text-secondary dark:text-white font-bold">Vores Mission</h2>
+        <div class="space-y-6 text-slate-600 dark:text-slate-300 leading-loose text-lg">
+          <p>
+            Tawhid Islamisk Trossamfund er en muslimsk institution beliggende i hjertet af København. Vi arbejder hver dag for at skabe et trygt, aktivt og meningsfuldt miljø for både børn, unge og voksne.
+          </p>
+          <p>
+            Vi lægger stor vægt på undervisning, hvor medlemmerne får mulighed for at styrke deres viden om islam, sprog, kultur og fællesskab. Vores læringsmiljø er åbent, respektfuldt og tilpasset alle aldre.
+          </p>
+          <p>
+            For de unge tilbyder vi et bredt udvalg af ungdomsaktiviteter, der giver plads til udvikling, fællesskab og gode oplevelser. Her mødes man i et positivt miljø, hvor man kan være sig selv og samtidig vokse sammen med andre.
+          </p>
+        </div>
+      </div>
+    </section>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class AboutMissionComponent {}
