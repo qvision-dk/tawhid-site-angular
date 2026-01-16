@@ -1,13 +1,14 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { PrayerTimesComponent } from '../../shared/widgets/prayer-times.component';
-import { UpcomingWidgetComponent } from '../../shared/widgets/upcoming-widget.component';
+import { HomeHeroComponent } from './components/home-hero.component';
+import { HomeOfferingsComponent } from './components/home-offerings.component';
+import { HomeCtaComponent } from './components/home-cta.component';
+import { HomeSidebarComponent } from './components/home-sidebar.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, PrayerTimesComponent, UpcomingWidgetComponent],
+  imports: [CommonModule, HomeHeroComponent, HomeOfferingsComponent, HomeCtaComponent, HomeSidebarComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
