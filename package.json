@@ -6,7 +6,7 @@
   "scripts": {
     "start": "bash scripts/start.sh",
     "start:clean": "bash scripts/start-clean.sh",
-    "build": "npx ng build",
+    "build": "bash scripts/build.sh",
     "build:prod": "npx ng build --configuration=production",
     "reset": "bash scripts/reset.sh",
     "test": "npx ng test"
