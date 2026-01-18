@@ -19,7 +19,7 @@ interface Activity {
   imports: [CommonModule, ActivityCardComponent],
   template: `
     <!-- Activity Cards -->
-    <div class="space-y-6">
+    <div class="flex flex-col space-y-6">
       @for(activity of activities; track activity.title) {
         <app-activity-card [activity]="activity"></app-activity-card>
       }
