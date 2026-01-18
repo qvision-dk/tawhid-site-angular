@@ -1,7 +1,9 @@
 import { Component, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PrayerTimesComponent } from '../../shared/widgets/prayer-times.component';
-import { UpcomingWidgetComponent } from '../../shared/widgets/upcoming-widget.component';
+import { ActivitiesHeroComponent } from './components/activities-hero.component';
+import { ActivitiesFiltersComponent } from './components/activities-filters.component';
+import { ActivitiesGridComponent } from './components/activities-grid.component';
+import { ActivitiesSidebarComponent } from './components/activities-sidebar.component';
 
 interface Activity {
   title: string;
@@ -17,7 +19,7 @@ interface Activity {
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [CommonModule, PrayerTimesComponent, UpcomingWidgetComponent],
+  imports: [CommonModule, ActivitiesHeroComponent, ActivitiesFiltersComponent, ActivitiesGridComponent, ActivitiesSidebarComponent],
   templateUrl: './activities.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -64,14 +66,7 @@ export class ActivitiesComponent {
     return this.activities().filter(a => a.category === filter);
   });
 
-  getFilterButtonClasses(filter: string) {
-    const isActive = this.activeFilter() === filter;
-    const baseClasses = 'px-6 py-2.5 rounded-full text-sm font-bold shadow-sm border transition-all hover:scale-105';
-    
-    if (isActive) {
-      return `${baseClasses} bg-secondary text-white border-transparent dark:bg-white dark:text-slate-900`;
-    }
-    
-    return `${baseClasses} bg-white text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700`;
+  onFilterChange(filter: string) {
+    this.activeFilter.set(filter);
   }
 }

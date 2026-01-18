@@ -1,0 +1,50 @@
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+interface Activity {
+  title: string;
+  category: string;
+  description: string;
+  icon: string;
+  day: string;
+  time: string;
+  colorClass: string;
+  iconColorClass: string;
+}
+
+@Component({
+  selector: 'app-activity-card',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="activity-card group bg-white dark:bg-[#1e293b]/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row gap-8 items-start hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div [class]="'w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm shrink-0 ' + activity.colorClass">
+        <span class="material-icons-round text-3xl">{{activity.icon}}</span>
+      </div>
+      
+      <div class="flex-1">
+        <div class="flex items-center gap-3 mb-3 flex-wrap">
+          <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white">{{activity.title}}</h3>
+          <span class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">Ugentlig</span>
+        </div>
+        
+        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+          {{activity.description}}
+        </p>
+        
+        <div class="flex flex-wrap gap-4">
+          <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+            <span [class]="'material-icons-round text-sm ' + activity.iconColorClass">event</span> {{activity.day}}
+          </div>
+          <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+            <span [class]="'material-icons-round text-sm ' + activity.iconColorClass">schedule</span> {{activity.time}}
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ActivityCardComponent {
+  @Input({ required: true }) activity!: Activity;
+}
