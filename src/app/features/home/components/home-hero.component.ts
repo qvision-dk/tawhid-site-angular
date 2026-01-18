@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, RouterLink],
   template: `
     <!-- Hero Card -->
-    <div class="relative rounded-[3rem] overflow-hidden shadow-2xl min-h-[80vh] flex items-center group">
+    <div class="relative rounded-[3rem] overflow-hidden shadow-2xl min-h-[60vh] flex items-center group">
       <!-- Background Image -->
       <div class="absolute inset-0 z-0 transition-transform duration-700 group-hover:scale-105">
         <img src="/assets/images/home/hero-bg.jpg"
