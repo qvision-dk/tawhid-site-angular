@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <!-- Benefits Grid -->
-    <section class="bg-white dark:bg-slate-900/50 p-10 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+    <section class="mt-12 bg-white dark:bg-slate-900/50 p-10 rounded-[2rem] border border-slate-100 dark:border-slate-800">
       <div class="flex items-center gap-4 mb-10">
         <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-600">
           <span class="material-icons-round">stars</span>

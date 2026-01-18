@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <!-- Membership Plans -->
-    <section class="grid md:grid-cols-2 gap-8">
+    <section class="mt-12 grid md:grid-cols-2 gap-8">
       <!-- Individual Plan -->
       <div class="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none flex flex-col hover:-translate-y-1 transition-transform duration-300">
         <div class="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-secondary dark:text-slate-300 mb-8">

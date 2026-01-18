@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <!-- Values Grid -->
-    <section class="space-y-8">
+    <section class="mt-12 space-y-8">
       <div class="text-center md:text-left">
         <h2 class="font-display text-3xl text-secondary dark:text-white font-bold">Vores Værdier</h2>
       </div>

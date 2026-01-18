@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <!-- Offerings Grid -->
-    <div class="space-y-8">
+    <div class="mt-12 space-y-8">
       <div class="space-y-4">
         <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-xs font-bold uppercase tracking-wider">
           <span class="material-icons-round text-sm">volunteer_activism</span> Hvad vi tilbyder

@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormGroup } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <!-- Contact Form -->
-    <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+    <div class="mt-12 bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 relative overflow-hidden">
       <div class="islamic-pattern absolute inset-0 opacity-50 pointer-events-none"></div>
       
       <div class="relative z-10 space-y-10">

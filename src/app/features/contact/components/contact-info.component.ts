@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <!-- Info Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="p-8 bg-blue-50 dark:bg-blue-900/10 rounded-[2rem] border border-blue-100/50 dark:border-blue-800/20 flex items-center gap-6 group hover:shadow-lg transition-all">
         <div class="w-14 h-14 bg-white dark:bg-slate-800 rounded-xl shadow-sm flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
           <span class="material-icons-round">location_on</span>

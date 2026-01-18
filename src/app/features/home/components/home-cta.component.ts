@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   imports: [CommonModule, RouterLink],
   template: `
     <!-- CTA Card -->
-    <div class="bg-secondary dark:bg-slate-950 p-10 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden text-white">
+    <div class="mt-12 bg-secondary dark:bg-slate-950 p-10 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden text-white">
       <div class="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -mr-20 -mt-20"></div>
       <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] -ml-20 -mb-20"></div>
       

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <!-- Mission -->
-    <section class="bg-white dark:bg-slate-800 rounded-[2rem] p-8 md:p-12 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 relative overflow-hidden">
+    <section class="mt-12 bg-white dark:bg-slate-800 rounded-[2rem] p-8 md:p-12 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 relative overflow-hidden">
       <div class="absolute top-0 left-0 w-20 h-1 bg-primary"></div>
       <div class="islamic-pattern absolute inset-0 opacity-30 pointer-events-none"></div>
       
