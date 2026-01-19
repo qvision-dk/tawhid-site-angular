@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { UiSectionBadgeComponent } from '../../../shared/ui/section-badge.component';
 
 @Component({
   selector: 'app-home-hero',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, UiSectionBadgeComponent],
   template: `
     <!-- Hero Card -->
     <div class="relative rounded-[3rem] overflow-hidden shadow-2xl min-h-[60vh] flex items-center group">
@@ -25,10 +26,7 @@ import { RouterLink } from '@angular/router';
 
       <!-- Content -->
       <div class="relative z-10 p-8 md:p-12 lg:p-16 w-full text-white">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/20 border border-primary/30 backdrop-blur-md rounded-full text-primary text-xs font-bold uppercase tracking-wider mb-8 shadow-lg shadow-black/10">
-          <span class="material-icons-round text-sm animate-pulse">auto_awesome</span>
-          Velkommen til vores fællesskab
-        </div>
+        <app-ui-section-badge icon="auto_awesome" variant="hero" [animateIcon]="true" class="mb-8">Velkommen til vores fællesskab</app-ui-section-badge>
         
         
 

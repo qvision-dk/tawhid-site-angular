@@ -1,17 +1,16 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UiSectionBadgeComponent } from '../../../shared/ui/section-badge.component';
 
 @Component({
   selector: 'app-home-offerings',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UiSectionBadgeComponent],
   template: `
     <!-- Offerings Grid -->
     <div class="mt-12 space-y-8">
       <div class="space-y-4">
-        <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-full text-xs font-bold uppercase tracking-wider">
-          <span class="material-icons-round text-sm">volunteer_activism</span> Hvad vi tilbyder
-        </span>
+        <app-ui-section-badge icon="volunteer_activism">Hvad vi tilbyder</app-ui-section-badge>
         <h2 class="text-4xl font-display font-bold text-secondary dark:text-white">Aktiviteter for alle</h2>
         <p class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
           Vi har skabt et miljø hvor der er plads til alle, uanset alder og baggrund. Udforsk vores mange tilbud.
