@@ -1,17 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityCardComponent } from './activity-card.component';
-
-interface Activity {
-  title: string;
-  category: string;
-  description: string;
-  icon: string;
-  day: string;
-  time: string;
-  colorClass: string;
-  iconColorClass: string;
-}
+import { Activity } from '../models/activity.model';
 
 @Component({
   selector: 'app-activities-grid',
@@ -20,7 +10,7 @@ interface Activity {
   template: `
     <!-- Activity Cards -->
     <div class="flex flex-col space-y-6">
-      @for(activity of activities; track activity.title) {
+      @for(activity of activities; track activity.id) {
         <app-activity-card [activity]="activity"></app-activity-card>
       }
     </div>

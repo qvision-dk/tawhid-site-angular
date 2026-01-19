@@ -4,7 +4,7 @@
   <div class="lg:col-span-8 space-y-12">
     <app-activities-hero></app-activities-hero>
     <app-activities-filters
-      [filters]="filters"
+      [filters]="filters()"
       [activeFilter]="activeFilter()"
       (filterChange)="onFilterChange($event)"
     ></app-activities-filters>

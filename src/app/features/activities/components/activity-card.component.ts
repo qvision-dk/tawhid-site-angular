@@ -1,44 +1,47 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface Activity {
-  title: string;
-  category: string;
-  description: string;
-  icon: string;
-  day: string;
-  time: string;
-  colorClass: string;
-  iconColorClass: string;
-}
+import { Activity } from '../models/activity.model';
 
 @Component({
   selector: 'app-activity-card',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="activity-card group bg-white dark:bg-[#1e293b]/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row gap-8 items-start hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-      <div [class]="'w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm shrink-0 ' + activity.colorClass">
-        <span class="material-icons-round text-3xl">{{activity.icon}}</span>
+    <div class="activity-card group bg-white dark:bg-[#1e293b]/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row gap-8 items-start hover:shadow-xl transition-all duration-300 hover:-translate-y-1 mb-12 last:mb-0">
+      <div [class]="'w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm shrink-0 ' + colorClass()">
+        <span class="material-icons-round text-3xl">{{icon()}}</span>
       </div>
       
       <div class="flex-1">
         <div class="flex items-center gap-3 mb-3 flex-wrap">
           <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white">{{activity.title}}</h3>
-          <span class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">Ugentlig</span>
+          @if(repeatBadgeText()) {
+            <span class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">{{repeatBadgeText()}}</span>
+          }
         </div>
         
-        <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-          {{activity.description}}
-        </p>
+        @if(activity.description) {
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+            {{activity.description}}
+          </p>
+        }
         
         <div class="flex flex-wrap gap-4">
-          <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
-            <span [class]="'material-icons-round text-sm ' + activity.iconColorClass">event</span> {{activity.day}}
-          </div>
-          <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
-            <span [class]="'material-icons-round text-sm ' + activity.iconColorClass">schedule</span> {{activity.time}}
-          </div>
+          @if(day()) {
+            <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span [class]="'material-icons-round text-sm ' + iconColorClass()">event</span> {{day()}}
+            </div>
+          }
+          @if(time()) {
+            <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span [class]="'material-icons-round text-sm ' + iconColorClass()">schedule</span> {{time()}}
+            </div>
+          }
+          @if(activity.location) {
+            <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span [class]="'material-icons-round text-sm ' + iconColorClass()">location_on</span> {{activity.location}}
+            </div>
+          }
         </div>
       </div>
     </div>
@@ -47,4 +50,76 @@ interface Activity {
 })
 export class ActivityCardComponent {
   @Input({ required: true }) activity!: Activity;
+
+  readonly icon = computed(() => this.getIconForType(this.activity?.typeSlug || ''));
+  readonly colorClass = computed(() => this.getColorClassForType(this.activity?.typeSlug || ''));
+  readonly iconColorClass = computed(() => this.getIconColorClassForType(this.activity?.typeSlug || ''));
+  readonly day = computed(() => this.formatDay());
+  readonly time = computed(() => this.formatTime());
+  readonly repeatBadgeText = computed(() => this.getRepeatBadgeText());
+
+  private getIconForType(typeSlug: string): string {
+    if (!typeSlug) return 'event';
+    const iconMap: Record<string, string> = {
+      'prayer': 'mosque',
+      'teaching': 'menu_book',
+      'youth': 'groups',
+      'community': 'favorite'
+    };
+    return iconMap[typeSlug.toLowerCase()] || 'event';
+  }
+
+  private getColorClassForType(typeSlug: string): string {
+    if (!typeSlug) return 'bg-slate-50 dark:bg-slate-900/20 text-slate-600';
+    const colorMap: Record<string, string> = {
+      'prayer': 'bg-amber-50 dark:bg-amber-900/20 text-amber-600',
+      'teaching': 'bg-blue-50 dark:bg-blue-900/20 text-blue-600',
+      'youth': 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600',
+      'community': 'bg-pink-50 dark:bg-pink-900/20 text-pink-600'
+    };
+    return colorMap[typeSlug.toLowerCase()] || 'bg-slate-50 dark:bg-slate-900/20 text-slate-600';
+  }
+
+  private getIconColorClassForType(typeSlug: string): string {
+    if (!typeSlug) return 'text-slate-500';
+    const colorMap: Record<string, string> = {
+      'prayer': 'text-amber-500',
+      'teaching': 'text-blue-500',
+      'youth': 'text-emerald-500',
+      'community': 'text-pink-500'
+    };
+    return colorMap[typeSlug.toLowerCase()] || 'text-slate-500';
+  }
+
+  private formatDay(): string {
+    if (this.activity.repeatBadge === 'weekly' && this.activity.weekday !== undefined) {
+      const weekdays = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
+      return weekdays[this.activity.weekday] || '';
+    }
+    if (this.activity.date) {
+      const date = new Date(this.activity.date);
+      return date.toLocaleDateString('da-DK', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+    return '';
+  }
+
+  private formatTime(): string {
+    if (this.activity.startTime && this.activity.endTime) {
+      // Format from HH:MM:SS to HH:MM
+      const start = this.activity.startTime.substring(0, 5);
+      const end = this.activity.endTime.substring(0, 5);
+      return `${start} - ${end}`;
+    }
+    if (this.activity.startTime) {
+      return this.activity.startTime.substring(0, 5);
+    }
+    return '';
+  }
+
+  private getRepeatBadgeText(): string {
+    if (this.activity.repeatBadge === 'weekly') return 'Ugentlig';
+    if (this.activity.repeatBadge === 'monthly') return 'Månedlig';
+    if (this.activity.repeatBadge === 'yearly') return 'Årlig';
+    return '';
+  }
 }

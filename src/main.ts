@@ -1,9 +1,8 @@
- // Required for JIT
 import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './src/app/app.component';
+import { AppComponent } from './app/app.component';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation, withViewTransitions } from '@angular/router';
-import { routes } from './src/app/app.routes';
+import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -11,5 +10,3 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withHashLocation(), withViewTransitions())
   ]
 }).catch(err => console.error(err));
-
-// AI Studio always uses an `index.tsx` file for all project types.

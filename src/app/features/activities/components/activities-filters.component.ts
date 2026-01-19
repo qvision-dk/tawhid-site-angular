@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivityFilter } from '../models/activity-filter.model';
 
 @Component({
   selector: 'app-activities-filters',
@@ -8,12 +9,12 @@ import { CommonModule } from '@angular/common';
   template: `
     <!-- Filters -->
     <div class="flex flex-wrap gap-3 mb-12">
-      @for(filter of filters; track filter) {
+      @for(filter of filters; track filter.slug) {
         <button 
           (click)="onFilterClick(filter)"
           [class]="getFilterButtonClasses(filter)"
         >
-          {{filter}}
+          {{filter.label}}
         </button>
       }
     </div>
@@ -21,16 +22,16 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivitiesFiltersComponent {
-  @Input({ required: true }) filters!: string[];
+  @Input({ required: true }) filters!: ActivityFilter[];
   @Input({ required: true }) activeFilter!: string;
   @Output() filterChange = new EventEmitter<string>();
 
-  onFilterClick(filter: string) {
-    this.filterChange.emit(filter);
+  onFilterClick(filter: ActivityFilter) {
+    this.filterChange.emit(filter.slug);
   }
 
-  getFilterButtonClasses(filter: string) {
-    const isActive = this.activeFilter === filter;
+  getFilterButtonClasses(filter: ActivityFilter) {
+    const isActive = this.activeFilter === filter.slug;
     const baseClasses = 'px-6 py-2.5 rounded-full text-sm font-bold shadow-sm border transition-all hover:scale-105';
     
     if (isActive) {
