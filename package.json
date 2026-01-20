@@ -7,7 +7,7 @@
     "start": "bash scripts/start.sh",
     "start:clean": "bash scripts/start-clean.sh",
     "build": "bash scripts/build.sh",
-    "build:prod": "npx ng build --configuration=production",
+    "build:prod": "bash build-prod.sh",
     "reset": "bash scripts/reset.sh",
     "test": "npx ng test"
   },
