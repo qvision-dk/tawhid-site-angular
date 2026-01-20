@@ -31,5 +31,10 @@ export const routes: Routes = [
       import('./features/contact/contact.component')
         .then(m => m.ContactComponent)
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin.routes').then(m => m.adminRoutes)
+  },
   { path: '**', redirectTo: '' }
 ];

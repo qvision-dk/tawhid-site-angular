@@ -1,0 +1,44 @@
+<div class="min-h-screen bg-background-light dark:bg-background-dark pt-24 pb-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-4xl font-display font-bold text-secondary dark:text-white mb-2">Admin Panel</h1>
+          <p class="text-slate-600 dark:text-slate-400">Administrer aktiviteter og aktivitetstyper</p>
+        </div>
+        <button 
+          (click)="onSignOut()"
+          class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-full text-sm font-bold transition-colors"
+        >
+          Log ud
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="mb-8 border-b border-slate-200 dark:border-slate-700">
+      <div class="flex gap-4">
+        <a 
+          routerLink="/admin/activities" 
+          routerLinkActive="text-primary border-b-2 border-primary font-bold"
+          [routerLinkActiveOptions]="{exact: false}"
+          class="px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors border-b-2 border-transparent"
+        >
+          Aktiviteter
+        </a>
+        <a 
+          routerLink="/admin/activity-types" 
+          routerLinkActive="text-primary border-b-2 border-primary font-bold"
+          [routerLinkActiveOptions]="{exact: false}"
+          class="px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors border-b-2 border-transparent"
+        >
+          Aktivitetstyper
+        </a>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <router-outlet></router-outlet>
+  </div>
+</div>

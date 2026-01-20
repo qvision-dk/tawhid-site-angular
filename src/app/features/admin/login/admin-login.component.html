@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-background-light dark:bg-background-dark flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-md">
+    <!-- Login Card -->
+    <div class="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800">
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <div class="w-16 h-1 bg-primary rounded-full"></div>
+          <h1 class="text-4xl font-display font-bold text-secondary dark:text-white">Admin Login</h1>
+          <p class="text-slate-500 dark:text-slate-400">Log ind for at få adgang til admin panel</p>
+        </div>
+
+        <!-- Error Message -->
+        @if(errorMessage()) {
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+            <p class="text-red-600 dark:text-red-400 text-sm font-medium">{{errorMessage()}}</p>
+          </div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Email *</label>
+            <input
+              formControlName="email"
+              type="email"
+              class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all"
+              placeholder="din@email.dk"
+            />
+            @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+              <p class="text-red-500 text-xs">Gyldig email er påkrævet</p>
+            }
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Password *</label>
+            <input
+              formControlName="password"
+              type="password"
+              class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all"
+              placeholder="Dit password"
+            />
+            @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+              <p class="text-red-500 text-xs">Password er påkrævet</p>
+            }
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid || authService.loading()"
+            class="w-full bg-primary hover:bg-amber-600 disabled:bg-slate-400 text-white px-8 py-4 rounded-full text-sm font-bold transition-colors flex items-center justify-center gap-2"
+          >
+            @if(authService.loading()) {
+              <span class="material-icons-round animate-spin text-sm">refresh</span>
+              Logger ind...
+            } @else {
+              Log ind
+            }
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
