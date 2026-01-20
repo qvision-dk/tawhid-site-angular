@@ -24,6 +24,11 @@ export class ActivitiesService {
   }
 
   async init(): Promise<void> {
+    // Skip if already loaded
+    if (this.activities().length > 0 && this.filters().length > 0) {
+      return;
+    }
+    
     this.loading.set(true);
     try {
       await Promise.all([

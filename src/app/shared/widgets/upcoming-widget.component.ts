@@ -56,10 +56,8 @@ export class UpcomingWidgetComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // Initialize activities service if not already loaded
-    if (this.activitiesService.activities().length === 0) {
-      this.activitiesService.init();
-    }
+    // Initialize activities service (service handles caching internally)
+    this.activitiesService.init();
   }
 
   getIconForType(typeSlug: string): string {
