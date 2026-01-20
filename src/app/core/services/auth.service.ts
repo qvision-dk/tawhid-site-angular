@@ -4,6 +4,11 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
+// TODO: Re-enable role-based access when user_roles table is implemented
+// Role-based access is temporarily disabled.
+// All authenticated users are treated as admins.
+const ENABLE_ROLE_CHECK = false;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +16,7 @@ export class AuthService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly router = inject(Router);
   private supabase: SupabaseClient;
+  private initPromise: Promise<void> | null = null;
   
   readonly isAuthenticated = signal<boolean>(false);
   readonly isAdmin = signal<boolean>(false);
@@ -25,7 +31,7 @@ export class AuthService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
     
     if (isPlatformBrowser(this.platformId)) {
-      this.init();
+      this.initPromise = this.init();
     }
   }
 
@@ -69,7 +75,19 @@ export class AuthService {
     });
   }
 
+  async waitForSessionInit(): Promise<void> {
+    if (this.initPromise) {
+      await this.initPromise;
+    }
+  }
+
   private async checkAdminRole(userId: string): Promise<void> {
+    if (!ENABLE_ROLE_CHECK) {
+      // Temporary behavior: any authenticated user is considered admin
+      this.isAdmin.set(true);
+      return;
+    }
+
     try {
       // Check if user has admin role in Supabase
       // This assumes you have a user_roles table or similar
