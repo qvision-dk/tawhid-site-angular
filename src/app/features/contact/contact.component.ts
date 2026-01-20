@@ -22,12 +22,14 @@ export class ContactComponent {
   
   readonly contactForm: FormGroup;
   readonly successMessage = signal(false);
+  readonly errorMessage = signal<string | null>(null);
+  readonly isSubmitting = signal(false);
   readonly isFormInvalid = signal(true);
   readonly showNameError = signal(false);
   readonly showEmailError = signal(false);
   readonly showMessageError = signal(false);
 
-  readonly isSubmitDisabled = computed(() => this.isFormInvalid());
+  readonly isSubmitDisabled = computed(() => this.isFormInvalid() || this.isSubmitting());
 
   constructor() {
     this.contactForm = this.contactService.createContactForm();
@@ -59,21 +61,34 @@ export class ContactComponent {
     updateFormState();
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.contactForm.valid) {
-      this.contactService.sendViaMailto(this.contactForm.value);
-      this.successMessage.set(true);
-      this.contactForm.reset();
-      this.showNameError.set(false);
-      this.showEmailError.set(false);
-      this.showMessageError.set(false);
+      this.isSubmitting.set(true);
+      this.errorMessage.set(null);
       this.cdr.markForCheck();
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        this.successMessage.set(false);
+
+      try {
+        await this.contactService.saveMessage(this.contactForm.value);
+        
+        this.successMessage.set(true);
+        this.contactForm.reset();
+        this.showNameError.set(false);
+        this.showEmailError.set(false);
+        this.showMessageError.set(false);
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          this.successMessage.set(false);
+          this.cdr.markForCheck();
+        }, 5000);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Der opstod en fejl ved afsendelse af beskeden. Prøv venligst igen.';
+        this.errorMessage.set(message);
+        console.error('Error saving contact message:', error);
+      } finally {
+        this.isSubmitting.set(false);
         this.cdr.markForCheck();
-      }, 5000);
+      }
     } else {
       this.contactForm.markAllAsTouched();
       // Update error signals after marking all as touched

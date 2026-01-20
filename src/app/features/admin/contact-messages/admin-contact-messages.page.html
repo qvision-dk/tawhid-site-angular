@@ -1,0 +1,73 @@
+<div class="space-y-6">
+  <!-- Header -->
+  <div>
+    <h2 class="text-3xl font-display font-bold text-secondary dark:text-white mb-2">Kontaktbeskeder</h2>
+    <p class="text-slate-600 dark:text-slate-400">Administrer alle kontaktbeskeder</p>
+  </div>
+
+  <!-- Error Message -->
+  @if(service.error()) {
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+      <p class="text-red-600 dark:text-red-400 text-sm font-medium">{{service.error()}}</p>
+    </div>
+  }
+
+  <!-- Loading State -->
+  @if(service.loading()) {
+    <div class="text-center py-12">
+      <p class="text-slate-600 dark:text-slate-400">Indlæser...</p>
+    </div>
+  }
+
+  <!-- Messages Table -->
+  @if(!service.loading() && service.messages().length > 0) {
+    <div class="bg-white dark:bg-[#1e293b]/50 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+            <tr>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Navn</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Email</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Emne</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Status</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Dato</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+            @for(message of service.messages(); track message.id) {
+              <tr 
+                [routerLink]="['/admin/contact-messages', message.id]"
+                class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors"
+              >
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-slate-900 dark:text-white">{{message.name}}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-slate-600 dark:text-slate-400">{{message.email}}</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-slate-900 dark:text-white max-w-md truncate">{{message.subject}}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span [class]="'px-3 py-1 rounded-full text-[10px] uppercase font-bold ' + getStatusBadgeClass(message.status)">
+                    {{getStatusLabel(message.status)}}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-slate-600 dark:text-slate-400">{{formatDate(message.created_at)}}</div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if(!service.loading() && service.messages().length === 0) {
+    <div class="bg-white dark:bg-slate-900 rounded-[2rem] p-12 border border-slate-100 dark:border-slate-800 text-center">
+      <p class="text-slate-600 dark:text-slate-400">Ingen kontaktbeskeder endnu</p>
+    </div>
+  }
+</div>

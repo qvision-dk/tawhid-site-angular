@@ -8,7 +8,9 @@ import { authGuard } from '../../core/guards/auth.guard';
  * /admin/login - Login page (unprotected)
  * /admin - Admin Layout (shell, protected)
  *   ├─ /admin/activities - Activities CRUD (protected)
- *   └─ /admin/activity-types - Activity Types CRUD (protected)
+ *   ├─ /admin/activity-types - Activity Types CRUD (protected)
+ *   └─ /admin/contact-messages - Contact Messages (protected)
+ *       └─ /admin/contact-messages/:id - Contact Message Detail (protected)
  */
 export const adminRoutes: Routes = [
   {
@@ -36,6 +38,16 @@ export const adminRoutes: Routes = [
         path: 'activity-types',
         loadComponent: () =>
           import('./activity-types/admin-types.page').then(m => m.AdminTypesPage)
+      },
+      {
+        path: 'contact-messages',
+        loadComponent: () =>
+          import('./contact-messages/admin-contact-messages.page').then(m => m.AdminContactMessagesPage)
+      },
+      {
+        path: 'contact-messages/:id',
+        loadComponent: () =>
+          import('./contact-messages/admin-contact-message-detail.page').then(m => m.AdminContactMessageDetailPage)
       }
     ]
   }

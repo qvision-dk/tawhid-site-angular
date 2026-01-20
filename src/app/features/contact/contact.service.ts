@@ -1,11 +1,27 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ContactService {
-  private readonly recipientEmail = 'info@tawhid.dk';
+  private readonly fb = inject(FormBuilder);
+  private readonly platformId = inject(PLATFORM_ID);
+  private supabase: SupabaseClient | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    if (!environment.supabaseUrl || !environment.supabaseAnonKey) {
+      console.warn('Supabase environment variables are not configured. Contact messages will not be saved.');
+      return;
+    }
+
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
+  }
 
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -16,25 +32,23 @@ export class ContactService {
     });
   }
 
-  sendViaMailto(formValue: { name: string; email: string; subject: string; message: string }): void {
-    const subject = formValue.subject 
-      ? encodeURIComponent(formValue.subject)
-      : encodeURIComponent(`Kontakt fra ${formValue.name}`);
-    
-    const body = encodeURIComponent(
-      `Navn: ${formValue.name}\n` +
-      `Email: ${formValue.email}\n\n` +
-      `Besked:\n${formValue.message}`
-    );
+  async saveMessage(formValue: { name: string; email: string; subject: string; message: string }): Promise<void> {
+    if (!this.supabase) {
+      throw new Error('Supabase client not initialized. Cannot save message.');
+    }
 
-    const mailtoUrl = `mailto:${this.recipientEmail}?subject=${subject}&body=${body}`;
-    
-    // Create a temporary anchor element and click it (more reliable than window.location.href)
-    const link = document.createElement('a');
-    link.href = mailtoUrl;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const { error } = await this.supabase
+      .from('contact_messages')
+      .insert({
+        name: formValue.name.trim(),
+        email: formValue.email.trim(),
+        subject: formValue.subject?.trim() || `Kontakt fra ${formValue.name.trim()}`,
+        message: formValue.message.trim(),
+        status: 'new'
+      });
+
+    if (error) {
+      throw new Error(`Failed to save message: ${error.message}`);
+    }
   }
 }

@@ -16,6 +16,8 @@ export class ContactFormComponent {
   @Input({ required: true }) showMessageError!: boolean;
   @Input({ required: true }) isSubmitDisabled!: boolean;
   @Input({ required: true }) successMessage!: boolean;
+  @Input() errorMessage: string | null = null;
+  @Input() isSubmitting: boolean = false;
   @Output() submitForm = new EventEmitter<void>();
 
   onSubmit(): void {
