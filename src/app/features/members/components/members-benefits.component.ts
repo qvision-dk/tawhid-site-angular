@@ -5,58 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-members-benefits',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <!-- Benefits Grid -->
-    <section class="mt-12 bg-white dark:bg-slate-900/50 p-10 rounded-[2rem] border border-slate-100 dark:border-slate-800">
-      <div class="flex items-center gap-4 mb-10">
-        <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-600">
-          <span class="material-icons-round">stars</span>
-        </div>
-        <div>
-          <h3 class="text-xl font-bold text-secondary dark:text-white">Medlemsfordele</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">Alt hvad du får som medlem</p>
-        </div>
-      </div>
-      <div class="grid md:grid-cols-2 gap-4">
-        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-            <span class="material-icons-round text-sm">star</span>
-          </div>
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Adgang til alle aktiviteter og arrangementer</span>
-        </div>
-        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-            <span class="material-icons-round text-sm">star</span>
-          </div>
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Deltagelse i fredagssammenkomster</span>
-        </div>
-        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-            <span class="material-icons-round text-sm">card_giftcard</span>
-          </div>
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Gratis undervisning i arabisk og Koran</span>
-        </div>
-        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-            <span class="material-icons-round text-sm">star</span>
-          </div>
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Børneaktiviteter og ungdomsprogrammer</span>
-        </div>
-        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-            <span class="material-icons-round text-sm">card_giftcard</span>
-          </div>
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Fællesspisning og sociale arrangementer</span>
-        </div>
-        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center gap-4">
-          <div class="w-8 h-8 bg-white dark:bg-slate-700 rounded-full flex items-center justify-center text-amber-500 shadow-sm">
-            <span class="material-icons-round text-sm">star</span>
-          </div>
-          <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Del af et varmt og støttende fællesskab</span>
-        </div>
-      </div>
-    </section>
-  `,
+  templateUrl: './members-benefits.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MembersBenefitsComponent {}

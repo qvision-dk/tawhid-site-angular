@@ -1,0 +1,73 @@
+<div class="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800">
+  <div class="flex items-center gap-3 mb-8">
+    <div class="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-400">
+      <span class="material-icons-round">calendar_month</span>
+    </div>
+    <h4 class="font-bold text-slate-900 dark:text-white">Kommende aktiviteter</h4>
+  </div>
+
+  <!-- Loading State -->
+  @if(activitiesService.loading()) {
+    <div class="text-center py-8">
+      <p class="text-sm text-slate-500 dark:text-slate-400">Indlæser...</p>
+    </div>
+  }
+
+  <!-- Activities List -->
+  @if(!activitiesService.loading() && upcomingActivities().length > 0) {
+    <div class="space-y-4 mb-8">
+      @for(activity of upcomingActivities(); track activity.id) {
+        <div [class]="'p-5 rounded-2xl border group hover:border-amber-200 dark:hover:border-amber-800 transition-colors cursor-pointer ' + getCardClasses(activity.typeSlug)">
+          <div class="flex items-start gap-3 mb-2">
+            <div [class]="'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ' + getIconBgClass(activity.typeSlug)">
+              <span [class]="'material-icons-round text-sm ' + getIconColorClass(activity.typeSlug)">{{getIconForType(activity.typeSlug)}}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <h5 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors line-clamp-1">{{activity.title}}</h5>
+              @if(activity.description) {
+                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-1 mb-2">{{activity.description}}</p>
+              }
+              <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                @if(formatDay(activity)) {
+                  <span class="flex items-center gap-1">
+                    <span [class]="'material-icons-round text-xs ' + getIconColorClass(activity.typeSlug)">event</span>
+                    {{formatDay(activity)}}
+                  </span>
+                }
+                @if(formatTime(activity)) {
+                  <span class="flex items-center gap-1">
+                    <span [class]="'material-icons-round text-xs ' + getIconColorClass(activity.typeSlug)">schedule</span>
+                    {{formatTime(activity)}}
+                  </span>
+                }
+                @if(activity.location) {
+                  <span class="flex items-center gap-1">
+                    <span [class]="'material-icons-round text-xs ' + getIconColorClass(activity.typeSlug)">location_on</span>
+                    {{activity.location}}
+                  </span>
+                }
+                @if(getRepeatBadgeText(activity.repeatBadge)) {
+                  <span class="bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">
+                    {{getRepeatBadgeText(activity.repeatBadge)}}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Empty State -->
+  @if(!activitiesService.loading() && upcomingActivities().length === 0) {
+    <div class="text-center py-8 mb-8">
+      <p class="text-sm text-slate-500 dark:text-slate-400">Ingen kommende aktiviteter</p>
+    </div>
+  }
+
+  <button routerLink="/aktiviteter" class="w-full py-4 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors rounded-2xl text-sm font-bold flex items-center justify-center gap-2 group text-slate-700 dark:text-slate-300">
+    Se alle aktiviteter
+    <span class="material-icons-round text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+  </button>
+</div>

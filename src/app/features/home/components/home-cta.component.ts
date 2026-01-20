@@ -6,30 +6,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-home-cta',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  template: `
-    <!-- CTA Card -->
-    <div class="mt-12 bg-secondary dark:bg-slate-950 p-10 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden text-white">
-      <div class="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -mr-20 -mt-20"></div>
-      <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] -ml-20 -mb-20"></div>
-      
-      <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-display font-bold mb-6 leading-tight">Dit nye fællesskab <br/> <span class="text-primary">venter på dig</span></h2>
-          <p class="text-slate-300 leading-relaxed mb-8">
-            Vi ser frem til at byde dig velkommen og håber, at du vil føle dig hjemme hos os. Uanset om du søger viden, venner eller bare et sted at bede, er døren altid åben.
-          </p>
-          <button routerLink="/kontakt" class="bg-primary hover:bg-amber-600 text-secondary font-bold px-8 py-3 rounded-full flex items-center gap-2 transition-all shadow-lg transform hover:scale-105">
-            Kontakt os <span class="material-icons-round">chevron_right</span>
-          </button>
-        </div>
-        <div class="relative hidden md:block">
-           <div class="aspect-square rounded-full border border-white/10 flex items-center justify-center bg-white/5 backdrop-blur-sm p-10">
-              <span class="material-icons-round text-[8rem] text-primary/50">handshake</span>
-           </div>
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './home-cta.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeCtaComponent {}

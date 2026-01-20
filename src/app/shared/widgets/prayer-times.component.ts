@@ -5,49 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-prayer-times',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="bg-secondary dark:bg-[#0f172a] rounded-[2rem] p-8 text-white relative overflow-hidden shadow-2xl group border border-slate-700/50 dark:border-slate-800">
-      <!-- Decorative background blur -->
-      <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-3xl rounded-full group-hover:bg-primary/30 transition-colors duration-700"></div>
-      
-      <div class="relative z-10">
-        <div class="flex items-center justify-between mb-8">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <span class="material-icons-round text-primary">schedule</span>
-            </div>
-            <div>
-              <h4 class="font-bold text-white">Bønnetider</h4>
-              <p class="text-[10px] text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                <span class="material-icons-round text-[10px]">location_on</span> København
-              </p>
-            </div>
-          </div>
-          <span class="material-icons-round text-primary/40 animate-pulse">auto_awesome</span>
-        </div>
-
-        <div class="space-y-1">
-          @for (prayer of prayers; track prayer.name) {
-            <div class="flex justify-between items-center py-3 border-b border-white/5 text-sm group/item hover:bg-white/5 px-2 rounded-lg transition-colors">
-              <span class="text-slate-300 group-hover/item:text-white transition-colors">{{prayer.name}} <span class="text-[10px] ml-1 text-slate-500 font-serif">{{prayer.arabic}}</span></span>
-              <span class="font-bold font-mono">{{prayer.time}}</span>
-            </div>
-          }
-          
-          <!-- Highlighted Next Prayer (Isha for demo) -->
-          <div class="flex justify-between items-center p-4 bg-primary/10 border border-primary/20 rounded-2xl text-sm mt-4 backdrop-blur-md">
-            <span class="font-bold flex items-center gap-2">
-              <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-              Isha <span class="text-[10px] ml-1 text-primary/80 font-serif">العشاء</span>
-            </span>
-            <span class="font-bold text-primary text-base font-mono">17:46</span>
-          </div>
-        </div>
-
-        <p class="text-[10px] text-center text-slate-500 mt-8 font-medium">Masjid Tawhid • 11. januar 2026</p>
-      </div>
-    </div>
-  `
+  templateUrl: './prayer-times.component.html'
 })
 export class PrayerTimesComponent {
   prayers = [

@@ -6,46 +6,7 @@ import { Activity } from '../models/activity.model';
   selector: 'app-activity-card',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="activity-card group bg-white dark:bg-[#1e293b]/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 flex flex-col md:flex-row gap-8 items-start hover:shadow-xl transition-all duration-300 hover:-translate-y-1 mb-12 last:mb-0">
-      <div [class]="'w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm shrink-0 ' + colorClass()">
-        <span class="material-icons-round text-3xl">{{icon()}}</span>
-      </div>
-      
-      <div class="flex-1">
-        <div class="flex items-center gap-3 mb-3 flex-wrap">
-          <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white">{{activity.title}}</h3>
-          @if(repeatBadgeText()) {
-            <span class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">{{repeatBadgeText()}}</span>
-          }
-        </div>
-        
-        @if(activity.description) {
-          <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-            {{activity.description}}
-          </p>
-        }
-        
-        <div class="flex flex-wrap gap-4">
-          @if(day()) {
-            <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
-              <span [class]="'material-icons-round text-sm ' + iconColorClass()">event</span> {{day()}}
-            </div>
-          }
-          @if(time()) {
-            <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
-              <span [class]="'material-icons-round text-sm ' + iconColorClass()">schedule</span> {{time()}}
-            </div>
-          }
-          @if(activity.location) {
-            <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300">
-              <span [class]="'material-icons-round text-sm ' + iconColorClass()">location_on</span> {{activity.location}}
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './activity-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityCardComponent {

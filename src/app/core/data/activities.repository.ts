@@ -96,9 +96,31 @@ export class ActivitiesRepository {
   }
 
   async create(dto: CreateActivityDto): Promise<Activity> {
+    // Validate required fields
+    if (!dto.title || !dto.title.trim()) {
+      throw new Error('Title is required');
+    }
+    if (!dto.activity_type_id) {
+      throw new Error('Activity type is required');
+    }
+    
+    // Filter to only include valid fields - build object explicitly
+    const filteredDto: CreateActivityDto = {
+      title: dto.title.trim(),
+      activity_type_id: dto.activity_type_id,
+      ...(dto.description !== undefined && dto.description !== null && dto.description.trim() && { description: dto.description.trim() }),
+      ...(dto.date !== undefined && dto.date !== null && dto.date !== '' && { date: dto.date }),
+      ...(dto.weekday !== undefined && dto.weekday !== null && { weekday: dto.weekday }),
+      ...(dto.start_time !== undefined && dto.start_time !== null && dto.start_time !== '' && { start_time: dto.start_time }),
+      ...(dto.end_time !== undefined && dto.end_time !== null && dto.end_time !== '' && { end_time: dto.end_time }),
+      ...(dto.location !== undefined && dto.location !== null && dto.location.trim() && { location: dto.location.trim() }),
+      ...(dto.repeat_badge !== undefined && dto.repeat_badge !== null && { repeat_badge: dto.repeat_badge }),
+      ...(dto.is_active !== undefined && { is_active: dto.is_active })
+    };
+    
     const { data, error } = await this.supabase
       .from('activities')
-      .insert(dto)
+      .insert(filteredDto)
       .select('*, activity_types(slug, label)')
       .single();
 
@@ -125,9 +147,27 @@ export class ActivitiesRepository {
   async update(dto: UpdateActivityDto): Promise<Activity> {
     const { id, ...updateData } = dto;
     
+    // Validate title if provided
+    if (updateData.title !== undefined && (!updateData.title || !updateData.title.trim())) {
+      throw new Error('Title cannot be empty');
+    }
+    
+    // Filter to only include valid fields - build object explicitly
+    const filteredUpdateData: Partial<CreateActivityDto> = {};
+    if (updateData.title !== undefined && updateData.title !== null) filteredUpdateData.title = updateData.title.trim();
+    if (updateData.description !== undefined && updateData.description !== null && updateData.description.trim()) filteredUpdateData.description = updateData.description.trim();
+    if (updateData.activity_type_id !== undefined && updateData.activity_type_id !== null) filteredUpdateData.activity_type_id = updateData.activity_type_id;
+    if (updateData.date !== undefined && updateData.date !== null && updateData.date !== '') filteredUpdateData.date = updateData.date;
+    if (updateData.weekday !== undefined && updateData.weekday !== null) filteredUpdateData.weekday = updateData.weekday;
+    if (updateData.start_time !== undefined && updateData.start_time !== null && updateData.start_time !== '') filteredUpdateData.start_time = updateData.start_time;
+    if (updateData.end_time !== undefined && updateData.end_time !== null && updateData.end_time !== '') filteredUpdateData.end_time = updateData.end_time;
+    if (updateData.location !== undefined && updateData.location !== null && updateData.location.trim()) filteredUpdateData.location = updateData.location.trim();
+    if (updateData.repeat_badge !== undefined && updateData.repeat_badge !== null) filteredUpdateData.repeat_badge = updateData.repeat_badge;
+    if (updateData.is_active !== undefined) filteredUpdateData.is_active = updateData.is_active;
+    
     const { data, error } = await this.supabase
       .from('activities')
-      .update(updateData)
+      .update(filteredUpdateData)
       .eq('id', id)
       .select('*, activity_types(slug, label)')
       .single();
