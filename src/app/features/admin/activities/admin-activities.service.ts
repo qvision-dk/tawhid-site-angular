@@ -45,7 +45,7 @@ export class AdminActivitiesService {
   async create(dto: {
     title: string;
     description?: string;
-    type_slug: string;
+    activity_type_id: string;
     date?: string;
     weekday?: number;
     start_time?: string;
@@ -71,7 +71,7 @@ export class AdminActivitiesService {
   async update(id: string, dto: {
     title?: string;
     description?: string;
-    type_slug?: string;
+    activity_type_id?: string;
     date?: string;
     weekday?: number;
     start_time?: string;

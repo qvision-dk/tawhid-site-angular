@@ -51,15 +51,15 @@ import { RepeatBadge } from '../../activities/models/activity.model';
             <div class="space-y-2">
               <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Aktivitetstype *</label>
               <select
-                formControlName="typeSlug"
+                formControlName="activityTypeId"
                 class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all"
               >
                 <option value="">Vælg type</option>
                 @for(type of activityTypes; track type.slug) {
-                  <option [value]="type.slug">{{type.label}}</option>
+                  <option [value]="type.id">{{type.label}}</option>
                 }
               </select>
-              @if(form.get('typeSlug')?.invalid && form.get('typeSlug')?.touched) {
+              @if(form.get('activityTypeId')?.invalid && form.get('activityTypeId')?.touched) {
                 <p class="text-red-500 text-xs">Aktivitetstype er påkrævet</p>
               }
             </div>
@@ -173,7 +173,7 @@ export class AdminActivitiesFormComponent implements OnInit {
     id?: string;
     title: string;
     description?: string;
-    type_slug: string;
+    activity_type_id: string;
     date?: string;
     weekday?: number;
     start_time?: string;
@@ -193,7 +193,7 @@ export class AdminActivitiesFormComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       description: [''],
-      typeSlug: ['', Validators.required],
+      activityTypeId: ['', Validators.required],
       date: [''],
       weekday: [null],
       startTime: [''],
@@ -206,10 +206,14 @@ export class AdminActivitiesFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activity) {
+      // Find matching activity type by slug to preselect correct option when editing
+      const matchedType = this.activityTypes.find(t => t.slug === this.activity!.typeSlug);
+      const activityTypeId = matchedType ? matchedType.id : '';
+
       this.form.patchValue({
         title: this.activity.title,
         description: this.activity.description || '',
-        typeSlug: this.activity.typeSlug,
+        activityTypeId,
         date: this.activity.date || '',
         weekday: this.activity.weekday ?? null,
         startTime: this.activity.startTime ? this.activity.startTime.substring(0, 5) : '',
@@ -235,7 +239,7 @@ export class AdminActivitiesFormComponent implements OnInit {
       ...(this.activity?.id && { id: this.activity.id }),
       title: value.title,
       description: value.description || undefined,
-      type_slug: value.typeSlug,
+      activity_type_id: value.activityTypeId,
       date: value.date || undefined,
       weekday: value.weekday !== null && value.weekday !== '' ? Number(value.weekday) : undefined,
       start_time: value.startTime || undefined,

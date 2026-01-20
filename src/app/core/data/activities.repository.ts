@@ -7,7 +7,7 @@ import { Activity } from '../../features/activities/models/activity.model';
 export interface CreateActivityDto {
   title: string;
   description?: string;
-  type_slug: string;
+  activity_type_id: string; // FK to activity_types.id
   date?: string;
   weekday?: number;
   start_time?: string;

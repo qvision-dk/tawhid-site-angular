@@ -68,7 +68,7 @@ export class ActivitiesService {
   private async loadFilters(): Promise<void> {
     const { data, error } = await this.supabase
       .from('activity_types')
-      .select('slug, label, sort_order')
+      .select('id, slug, label, sort_order')
       .order('sort_order', { ascending: true, nullsFirst: false });
 
     if (error) {

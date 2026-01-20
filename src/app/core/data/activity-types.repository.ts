@@ -36,7 +36,7 @@ export class ActivityTypesRepository {
   async getAll(): Promise<ActivityType[]> {
     const { data, error } = await this.supabase
       .from('activity_types')
-      .select('slug, label, sort_order')
+      .select('id, slug, label, sort_order')
       .order('sort_order', { ascending: true, nullsFirst: false });
 
     if (error) {
@@ -44,6 +44,7 @@ export class ActivityTypesRepository {
     }
 
     return (data || []).map((item: any) => ({
+      id: item.id,
       slug: item.slug,
       label: item.label,
       sortOrder: item.sort_order
@@ -53,7 +54,7 @@ export class ActivityTypesRepository {
   async getBySlug(slug: string): Promise<ActivityType | null> {
     const { data, error } = await this.supabase
       .from('activity_types')
-      .select('slug, label, sort_order')
+      .select('id, slug, label, sort_order')
       .eq('slug', slug)
       .single();
 
@@ -65,6 +66,7 @@ export class ActivityTypesRepository {
     }
 
     return {
+      id: data.id,
       slug: data.slug,
       label: data.label,
       sortOrder: data.sort_order
@@ -75,7 +77,7 @@ export class ActivityTypesRepository {
     const { data, error } = await this.supabase
       .from('activity_types')
       .insert(dto)
-      .select('slug, label, sort_order')
+      .select('id, slug, label, sort_order')
       .single();
 
     if (error) {
@@ -83,6 +85,7 @@ export class ActivityTypesRepository {
     }
 
     return {
+      id: data.id,
       slug: data.slug,
       label: data.label,
       sortOrder: data.sort_order
@@ -96,7 +99,7 @@ export class ActivityTypesRepository {
       .from('activity_types')
       .update(updateData)
       .eq('slug', slug)
-      .select('slug, label, sort_order')
+      .select('id, slug, label, sort_order')
       .single();
 
     if (error) {
@@ -104,6 +107,7 @@ export class ActivityTypesRepository {
     }
 
     return {
+      id: data.id,
       slug: data.slug,
       label: data.label,
       sortOrder: data.sort_order
