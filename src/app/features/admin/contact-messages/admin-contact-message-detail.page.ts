@@ -1,3 +1,9 @@
+/**
+ * Admin Contact Message Detail Page
+ * 
+ * Displays full details of a contact message with actions for status updates and deletion.
+ * Delete requires explicit user confirmation via modal dialog.
+ */
 import { Component, signal, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -18,6 +24,8 @@ export class AdminContactMessageDetailPage implements OnInit {
 
   readonly message = signal<ContactMessage | null>(null);
   readonly updating = signal<boolean>(false);
+  readonly showDeleteConfirm = signal<boolean>(false);
+  readonly deleting = signal<boolean>(false);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -31,25 +39,44 @@ export class AdminContactMessageDetailPage implements OnInit {
     if (msg) {
       this.message.set(msg);
       
+      // Automatically mark as 'read' when opening a 'new' message
       if (msg.status === 'new') {
-        await this.updateStatus('read');
+        await this.markAsRead();
       }
     }
   }
 
-  async updateStatus(status: ContactMessageStatus): Promise<void> {
+  async markAsRead(): Promise<void> {
     const msg = this.message();
     if (!msg) return;
 
     this.updating.set(true);
     try {
-      await this.service.updateStatus(msg.id, status);
+      await this.service.markAsRead(msg.id);
       const updated = await this.service.getById(msg.id);
       if (updated) {
         this.message.set(updated);
       }
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error('Error marking as read:', error);
+    } finally {
+      this.updating.set(false);
+    }
+  }
+
+  async markAsReplied(): Promise<void> {
+    const msg = this.message();
+    if (!msg) return;
+
+    this.updating.set(true);
+    try {
+      await this.service.markAsReplied(msg.id);
+      const updated = await this.service.getById(msg.id);
+      if (updated) {
+        this.message.set(updated);
+      }
+    } catch (error) {
+      console.error('Error marking as replied:', error);
     } finally {
       this.updating.set(false);
     }
@@ -78,13 +105,11 @@ export class AdminContactMessageDetailPage implements OnInit {
   getStatusBadgeClass(status: string): string {
     switch (status) {
       case 'new':
-        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400';
+        return 'bg-blue-500 dark:bg-blue-600 text-white font-bold';
       case 'read':
         return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
       case 'replied':
-        return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400';
-      case 'archived':
-        return 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400';
+        return 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 opacity-75';
       default:
         return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
     }
@@ -98,10 +123,34 @@ export class AdminContactMessageDetailPage implements OnInit {
         return 'Læst';
       case 'replied':
         return 'Besvaret';
-      case 'archived':
-        return 'Arkiveret';
       default:
         return status;
+    }
+  }
+
+  openDeleteConfirm(): void {
+    this.showDeleteConfirm.set(true);
+  }
+
+  closeDeleteConfirm(): void {
+    this.showDeleteConfirm.set(false);
+  }
+
+  async confirmDelete(): Promise<void> {
+    const msg = this.message();
+    if (!msg) return;
+
+    this.deleting.set(true);
+    try {
+      await this.service.delete(msg.id);
+      // Navigate back to list after successful deletion
+      this.router.navigate(['/admin/contact-messages']);
+    } catch (error) {
+      // Error is handled by service
+      console.error('Error deleting message:', error);
+    } finally {
+      this.deleting.set(false);
+      this.showDeleteConfirm.set(false);
     }
   }
 }

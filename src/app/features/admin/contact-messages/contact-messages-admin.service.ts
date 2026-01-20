@@ -4,6 +4,12 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../../environments/environment';
 import { ContactMessage, ContactMessageStatus } from './models/contact-message.model';
 
+/**
+ * Contact Messages Admin Service
+ * 
+ * Admin service for managing contact messages.
+ * Delete functionality requires explicit user confirmation before execution.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -56,7 +62,27 @@ export class ContactMessagesAdminService {
         replied_at: item.replied_at
       }));
 
-      this.messages.set(mappedMessages);
+      // Sort by status priority: 'new' first, then 'read', then 'replied'
+      // Within each group, newest first
+      const statusPriority: Record<ContactMessageStatus, number> = {
+        'new': 1,
+        'read': 2,
+        'replied': 3
+      };
+
+      const sortedMessages = mappedMessages.sort((a, b) => {
+        const priorityA = statusPriority[a.status as ContactMessageStatus] || 99;
+        const priorityB = statusPriority[b.status as ContactMessageStatus] || 99;
+        
+        if (priorityA !== priorityB) {
+          return priorityA - priorityB;
+        }
+        
+        // Same status, sort by date (newest first)
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+
+      this.messages.set(sortedMessages);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to load messages';
       this.error.set(message);
@@ -109,7 +135,7 @@ export class ContactMessagesAdminService {
     }
   }
 
-  async updateStatus(id: string, status: ContactMessageStatus): Promise<void> {
+  async markAsRead(id: string): Promise<void> {
     if (!this.supabase) {
       this.error.set('Supabase client not initialized');
       return;
@@ -118,24 +144,81 @@ export class ContactMessagesAdminService {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const updateData: any = { status };
-
-      if (status === 'replied' && !updateData.replied_at) {
-        updateData.replied_at = new Date().toISOString();
-      }
-
+      // When marking as 'read', clear replied_at if it exists
       const { error } = await this.supabase
         .from('contact_messages')
-        .update(updateData)
+        .update({ 
+          status: 'read',
+          replied_at: null
+        })
         .eq('id', id);
 
       if (error) {
-        throw new Error(`Failed to update status: ${error.message}`);
+        throw new Error(`Failed to mark as read: ${error.message}`);
       }
 
       await this.list();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to update status';
+      const message = err instanceof Error ? err.message : 'Failed to mark as read';
+      this.error.set(message);
+      throw err;
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async markAsReplied(id: string): Promise<void> {
+    if (!this.supabase) {
+      this.error.set('Supabase client not initialized');
+      return;
+    }
+
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      const { error } = await this.supabase
+        .from('contact_messages')
+        .update({ 
+          status: 'replied',
+          replied_at: new Date().toISOString()
+        })
+        .eq('id', id);
+
+      if (error) {
+        throw new Error(`Failed to mark as replied: ${error.message}`);
+      }
+
+      await this.list();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to mark as replied';
+      this.error.set(message);
+      throw err;
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    if (!this.supabase) {
+      this.error.set('Supabase client not initialized');
+      return;
+    }
+
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      const { error } = await this.supabase
+        .from('contact_messages')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        throw new Error(`Failed to delete message: ${error.message}`);
+      }
+
+      await this.list();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to delete message';
       this.error.set(message);
       throw err;
     } finally {

@@ -1,3 +1,12 @@
+/**
+ * Admin Contact Messages List Page
+ * 
+ * Displays a list of contact messages sorted by status priority:
+ * - 'new' messages first (highlighted)
+ * - 'read' messages second
+ * - 'replied' messages last (de-emphasized)
+ * Within each group, newest first.
+ */
 import { Component, signal, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -21,13 +30,13 @@ export class AdminContactMessagesPage implements OnInit {
   getStatusBadgeClass(status: string): string {
     switch (status) {
       case 'new':
-        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400';
+        // Highlighted for visibility
+        return 'bg-blue-500 dark:bg-blue-600 text-white font-bold';
       case 'read':
         return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
       case 'replied':
-        return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400';
-      case 'archived':
-        return 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400';
+        // De-emphasized
+        return 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 opacity-75';
       default:
         return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
     }
@@ -41,8 +50,6 @@ export class AdminContactMessagesPage implements OnInit {
         return 'Læst';
       case 'replied':
         return 'Besvaret';
-      case 'archived':
-        return 'Arkiveret';
       default:
         return status;
     }

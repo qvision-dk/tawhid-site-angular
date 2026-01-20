@@ -23,21 +23,25 @@
   @if(!service.loading() && service.messages().length > 0) {
     <div class="bg-white dark:bg-[#1e293b]/50 rounded-[2rem] border border-slate-100 dark:border-slate-700/50 overflow-hidden">
       <div class="overflow-x-auto">
-        <table class="w-full">
+        <table class="w-full" role="table" aria-label="Kontaktbeskeder oversigt">
           <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
-            <tr>
-              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Navn</th>
-              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Email</th>
-              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Emne</th>
-              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Status</th>
-              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Dato</th>
+            <tr role="row">
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400" role="columnheader" scope="col">Navn</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400" role="columnheader" scope="col">Email</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400" role="columnheader" scope="col">Emne</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400" role="columnheader" scope="col">Status</th>
+              <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400" role="columnheader" scope="col">Modtaget</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
             @for(message of service.messages(); track message.id) {
               <tr 
                 [routerLink]="['/admin/contact-messages', message.id]"
-                class="hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors"
+                [class]="'hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors ' + (message.status === 'new' ? 'bg-blue-50/50 dark:bg-blue-900/10' : message.status === 'replied' ? 'opacity-75' : '')"
+                role="row"
+                tabindex="0"
+                (keydown.enter)="$event.target.click()"
+                (keydown.space)="$event.preventDefault(); $event.target.click()"
               >
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm font-medium text-slate-900 dark:text-white">{{message.name}}</div>
@@ -46,7 +50,9 @@
                   <div class="text-sm text-slate-600 dark:text-slate-400">{{message.email}}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="text-sm text-slate-900 dark:text-white max-w-md truncate">{{message.subject}}</div>
+                  <div class="text-sm text-slate-900 dark:text-white max-w-md truncate" title="{{message.subject}}">
+                    {{message.subject || '(Intet emne)'}}
+                  </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span [class]="'px-3 py-1 rounded-full text-[10px] uppercase font-bold ' + getStatusBadgeClass(message.status)">

@@ -75,9 +75,9 @@
           Svar via email
         </a>
 
-        @if(message()!.status !== 'replied') {
+        @if(message()!.status === 'read') {
           <button
-            (click)="updateStatus('replied')"
+            (click)="markAsReplied()"
             [disabled]="updating()"
             class="bg-green-500 hover:bg-green-600 disabled:bg-green-300 disabled:cursor-not-allowed text-white px-5 py-2 rounded-full text-sm font-bold transition-colors flex items-center gap-2"
           >
@@ -90,20 +90,97 @@
           </button>
         }
 
-        @if(message()!.status !== 'archived') {
+        @if(message()!.status === 'replied') {
           <button
-            (click)="updateStatus('archived')"
+            (click)="markAsRead()"
             [disabled]="updating()"
-            class="bg-gray-500 hover:bg-gray-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-5 py-2 rounded-full text-sm font-bold transition-colors flex items-center gap-2"
+            class="bg-slate-500 hover:bg-slate-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white px-5 py-2 rounded-full text-sm font-bold transition-colors flex items-center gap-2"
           >
-            <span class="material-icons-round text-sm">archive</span>
+            <span class="material-icons-round text-sm">mark_email_read</span>
             @if(updating()) {
               Opdaterer...
             } @else {
-              Arkiver
+              Marker som læst
             }
           </button>
         }
+
+        <button
+          (click)="openDeleteConfirm()"
+          [disabled]="updating() || deleting()"
+          class="bg-red-500 hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed text-white px-5 py-2 rounded-full text-sm font-bold transition-colors flex items-center gap-2"
+        >
+          <span class="material-icons-round text-sm">delete_forever</span>
+          Slet permanent
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Delete Confirmation Modal -->
+  @if(showDeleteConfirm()) {
+    <div 
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      (click)="closeDeleteConfirm()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="delete-dialog-title"
+      aria-describedby="delete-dialog-description"
+    >
+      <div 
+        class="bg-white dark:bg-slate-900 rounded-[2rem] p-8 max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="space-y-6">
+          <!-- Warning Icon -->
+          <div class="flex justify-center">
+            <div class="w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+              <span class="material-icons-round text-3xl text-red-600 dark:text-red-400">warning</span>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="text-center space-y-2">
+            <h3 id="delete-dialog-title" class="text-2xl font-display font-bold text-slate-900 dark:text-white">
+              Slet kontaktbesked?
+            </h3>
+            <p id="delete-dialog-description" class="text-slate-600 dark:text-slate-400">
+              Er du sikker på, at du vil slette denne besked permanent? Denne handling kan ikke fortrydes.
+            </p>
+            @if(message()) {
+              <div class="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl text-left">
+                <p class="text-sm font-medium text-slate-900 dark:text-white mb-1">Fra:</p>
+                <p class="text-sm text-slate-600 dark:text-slate-400">{{message()!.name}} &lt;{{message()!.email}}&gt;</p>
+                <p class="text-sm font-medium text-slate-900 dark:text-white mt-2 mb-1">Emne:</p>
+                <p class="text-sm text-slate-600 dark:text-slate-400">{{message()!.subject}}</p>
+              </div>
+            }
+          </div>
+
+          <!-- Actions -->
+          <div class="flex gap-3">
+            <button
+              (click)="closeDeleteConfirm()"
+              [disabled]="deleting()"
+              class="flex-1 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 disabled:bg-slate-100 disabled:cursor-not-allowed text-slate-700 dark:text-slate-300 px-5 py-3 rounded-full text-sm font-bold transition-colors"
+            >
+              Annuller
+            </button>
+            <button
+              (click)="confirmDelete()"
+              [disabled]="deleting()"
+              class="flex-1 bg-red-500 hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed text-white px-5 py-3 rounded-full text-sm font-bold transition-colors flex items-center justify-center gap-2"
+            >
+              @if(deleting()) {
+                <span class="material-icons-round text-sm animate-spin">hourglass_empty</span>
+                <span>Sletter...</span>
+              } @else {
+                <span class="material-icons-round text-sm">delete_forever</span>
+                <span>Slet permanent</span>
+              }
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   }

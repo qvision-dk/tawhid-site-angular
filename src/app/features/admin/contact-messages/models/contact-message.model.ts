@@ -1,4 +1,4 @@
-export type ContactMessageStatus = 'new' | 'read' | 'replied' | 'archived';
+export type ContactMessageStatus = 'new' | 'read' | 'replied';
 
 export interface ContactMessage {
   id: string;
