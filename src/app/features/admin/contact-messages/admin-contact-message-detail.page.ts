@@ -107,11 +107,13 @@ export class AdminContactMessageDetailPage implements OnInit {
       case 'new':
         return 'bg-blue-500 dark:bg-blue-600 text-white font-bold';
       case 'read':
-        return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
+        // More visible in dark mode
+        return 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-white';
       case 'replied':
-        return 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 opacity-75';
+        // More visible in dark mode with higher opacity
+        return 'bg-green-50 dark:bg-green-800/60 text-green-600 dark:text-green-200';
       default:
-        return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
+        return 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-white';
     }
   }
 
