@@ -132,11 +132,17 @@ export class PrayerTimesService {
     return prayers;
   }
 
-  private calculateNextPrayer(prayers: PrayerTime[]): void {
-    const now = new Date();
+  /**
+   * Pure calculation method to determine the next prayer.
+   * If all prayers for today have passed, returns tomorrow's Fajr.
+   */
+  getNextPrayer(prayers: PrayerTime[], now: Date): PrayerTime | null {
+    if (prayers.length === 0) return null;
+
     let nextPrayer: PrayerTime | null = null;
     let minDiff = Infinity;
 
+    // Find the next prayer from today's list
     for (const prayer of prayers) {
       if (!prayer.timestamp) continue;
 
@@ -149,11 +155,42 @@ export class PrayerTimesService {
       }
     }
 
-    // If no future prayer found today, use first prayer of next day (Fajr)
+    // If no future prayer found today, calculate tomorrow's Fajr
     if (!nextPrayer && prayers.length > 0) {
-      nextPrayer = prayers[0]; // Fajr is typically first
+      const fajr = prayers.find(p => p.name === 'Fajr');
+      if (fajr && fajr.timestamp) {
+        // Create a copy with timestamp set to tomorrow
+        const tomorrowFajr: PrayerTime = {
+          ...fajr,
+          timestamp: new Date(fajr.timestamp.getTime() + 24 * 60 * 60 * 1000)
+        };
+        return tomorrowFajr;
+      }
+      // Fallback to first prayer if Fajr not found
+      return prayers[0];
     }
 
-    this.nextPrayer.set(nextPrayer);
+    return nextPrayer;
+  }
+
+  /**
+   * Pure calculation method to get time until target time.
+   * Returns hours, minutes, seconds. Never returns negative values.
+   */
+  getTimeUntil(targetTime: Date, now: Date): { hours: number; minutes: number; seconds: number } {
+    const diff = Math.max(0, targetTime.getTime() - now.getTime());
+    
+    const totalSeconds = Math.floor(diff / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return { hours, minutes, seconds };
+  }
+
+  private calculateNextPrayer(prayers: PrayerTime[]): void {
+    const now = new Date();
+    const next = this.getNextPrayer(prayers, now);
+    this.nextPrayer.set(next);
   }
 }

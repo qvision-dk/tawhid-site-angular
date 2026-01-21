@@ -1,0 +1,38 @@
+@if(countdown) {
+  <div class="relative p-3 bg-slate-800/90 dark:bg-slate-900/95 rounded-xl border-2 border-primary/40 shadow-gold-glow backdrop-blur-sm">
+    <!-- Gold glow animation overlay -->
+    <div class="absolute inset-0 rounded-xl border-2 border-primary/20 animate-gold-glow pointer-events-none"></div>
+    
+    <div class="relative z-10 text-center">
+      <!-- Headline -->
+      <p class="text-xs text-slate-400 mb-2 font-medium">Tid til næste bøn</p>
+      
+      <!-- Countdown Timer -->
+      <div class="mb-2">
+        <div class="flex items-baseline gap-1 justify-center">
+          <span class="text-2xl font-bold text-primary font-mono tabular-nums leading-none">
+            {{countdown.hours.toString().padStart(2, '0')}}
+          </span>
+          <span class="text-sm text-primary/75 font-semibold leading-none">t</span>
+          <span class="text-lg text-primary/40 mx-1">:</span>
+          <span class="text-2xl font-bold text-primary font-mono tabular-nums leading-none">
+            {{countdown.minutes.toString().padStart(2, '0')}}
+          </span>
+          <span class="text-sm text-primary/75 font-semibold leading-none">m</span>
+          <span class="text-lg text-primary/40 mx-1">:</span>
+          <span class="text-2xl font-bold text-primary font-mono tabular-nums leading-none">
+            {{countdown.seconds.toString().padStart(2, '0')}}
+          </span>
+          <span class="text-sm text-primary/75 font-semibold leading-none">s</span>
+        </div>
+      </div>
+      
+      <!-- Subtitle -->
+      @if(prayerName && prayerTime) {
+        <p class="text-xs text-slate-400 font-medium">
+          Næste: <span class="text-slate-300">{{prayerName}}</span> kl. <span class="text-slate-300 font-mono">{{prayerTime}}</span>
+        </p>
+      }
+    </div>
+  </div>
+}

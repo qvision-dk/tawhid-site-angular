@@ -13,7 +13,7 @@ node_modules
 dist
 dist-ssr
 *.local
-.angular
+
 
 # Environment variables
 .env
@@ -29,4 +29,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Angular / Vite cache
+.angular/
+.angular/cache/
 
+# Vite
+.vite/

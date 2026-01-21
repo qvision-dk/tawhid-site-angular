@@ -76,6 +76,20 @@ module.exports = {
       boxShadow: {
         card: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
         elevated: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+        'gold-glow': '0 0 12px rgba(212, 175, 55, 0.2), 0 0 24px rgba(212, 175, 55, 0.15)',
+      },
+      keyframes: {
+        'gold-glow': {
+          '0%, 100%': {
+            boxShadow: '0 0 12px rgba(212, 175, 55, 0.2), 0 0 24px rgba(212, 175, 55, 0.15)',
+          },
+          '50%': {
+            boxShadow: '0 0 18px rgba(212, 175, 55, 0.35), 0 0 36px rgba(212, 175, 55, 0.25)',
+          },
+        },
+      },
+      animation: {
+        'gold-glow': 'gold-glow 3s ease-in-out infinite',
       },
     },
   },

@@ -10,8 +10,8 @@
         </div>
         <div>
           <h4 class="font-bold text-white">Bønnetider</h4>
-          <p class="text-[10px] text-slate-400 uppercase tracking-widest flex items-center gap-1">
-            <span class="material-icons-round text-[10px]">location_on</span> København
+          <p class="text-[10px] text-primary uppercase tracking-widest flex items-center gap-1">
+            <span class="material-icons-round text-[10px] text-primary">location_on</span> København
           </p>
         </div>
       </div>
@@ -34,16 +34,29 @@
 
     <!-- Prayer Times -->
     @if(!loading() && !error() && prayers().length > 0) {
+      <!-- Countdown Card -->
+      @if(countdown() && nextPrayer()) {
+        <div class="mb-6">
+          <app-next-prayer-countdown
+            [countdown]="countdown()!"
+            [prayerName]="nextPrayer()!.name"
+            [prayerTime]="nextPrayer()!.time">
+          </app-next-prayer-countdown>
+        </div>
+      }
+
       <div class="space-y-1">
         @for (prayer of prayers(); track prayer.name) {
           @if(prayer.name === nextPrayer()?.name) {
             <!-- Highlighted Next Prayer -->
-            <div class="flex justify-between items-center p-4 bg-primary/10 border border-primary/20 rounded-2xl text-sm backdrop-blur-md">
-              <span class="font-bold flex items-center gap-2">
-                <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                {{prayer.name}} <span class="text-[10px] ml-1 text-primary/80 font-serif">{{prayer.arabic}}</span>
-              </span>
-              <span class="font-bold text-primary text-base font-mono">{{prayer.time}}</span>
+            <div class="p-4 bg-primary/10 border border-primary/20 rounded-2xl text-sm backdrop-blur-md">
+              <div class="flex justify-between items-center">
+                <span class="font-bold flex items-center gap-2">
+                  <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                  {{prayer.name}} <span class="text-[10px] ml-1 text-primary/80 font-serif">{{prayer.arabic}}</span>
+                </span>
+                <span class="font-bold text-primary text-base font-mono">{{prayer.time}}</span>
+              </div>
             </div>
           } @else {
             <!-- Regular Prayer -->
