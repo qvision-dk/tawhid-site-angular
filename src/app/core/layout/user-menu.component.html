@@ -1,0 +1,64 @@
+<div class="relative">
+  <!-- User Icon Button -->
+  <button
+    (click)="toggleMenu($event)"
+    class="w-10 h-10 rounded-full bg-secondary dark:bg-primary flex items-center justify-center border-2 border-primary transition-all hover:scale-105 focus:outline-none"
+    [attr.aria-expanded]="isOpen()"
+    aria-label="User menu"
+  >
+    <span class="material-icons-round text-primary dark:text-secondary text-xl">person</span>
+  </button>
+
+  <!-- Dropdown Menu -->
+  @if(isOpen()) {
+    @if(isAuthenticated()) {
+      <!-- Logged In Menu -->
+      <div class="absolute right-0 top-11 w-48 bg-white dark:bg-slate-700 rounded-lg shadow-lg border border-slate-200 dark:border-slate-600 z-50 animate-fade-in">
+        <div class="p-3">
+          <!-- User Info Section -->
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-8 h-8 rounded-full bg-secondary dark:bg-primary flex items-center justify-center border-2 border-primary flex-shrink-0">
+              <span class="material-icons-round text-primary dark:text-secondary text-base">person</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-0.5">Logget ind som</p>
+              <p class="text-xs font-medium text-slate-700 dark:text-slate-200 truncate">{{user()?.email || ''}}</p>
+            </div>
+          </div>
+
+          <!-- Role Badge -->
+          <div class="flex items-center gap-1.5 mb-3">
+            <span class="material-icons-round text-primary text-sm">shield</span>
+            <span class="text-xs font-medium text-primary">Administrator</span>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-px bg-slate-200 dark:bg-slate-600 mb-3"></div>
+
+          <!-- Logout Action -->
+          <button
+            (click)="handleLogout()"
+            class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+          >
+            <span class="material-icons-round text-base">logout</span>
+            <span>Log ud</span>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <!-- Logged Out Menu -->
+      <div class="absolute right-0 top-11 bg-white dark:bg-slate-700 rounded-lg shadow-lg border border-slate-200 dark:border-slate-600 z-50 animate-fade-in">
+        <div class="p-2">
+          <a
+            routerLink="/admin/login"
+            (click)="closeMenu()"
+            class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors whitespace-nowrap"
+          >
+            <span class="material-icons-round text-base">login</span>
+            <span>Log ind</span>
+          </a>
+        </div>
+      </div>
+    }
+  }
+</div>

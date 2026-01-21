@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
 
 /**
  * Admin Layout Component
@@ -18,9 +17,4 @@ import { AuthService } from '../../core/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminLayoutComponent {
-  private readonly authService = inject(AuthService);
-
-  onSignOut(): void {
-    this.authService.signOut();
-  }
 }

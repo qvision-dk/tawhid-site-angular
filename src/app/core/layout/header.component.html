@@ -34,9 +34,7 @@
         }
       </button>
       
-      <a routerLink="/medlemmer" class="hidden sm:block bg-primary hover:bg-amber-600 text-white px-5 py-2 rounded-full text-sm font-bold shadow-lg shadow-amber-500/20 hover:scale-105 transition-all duration-300">
-        Bliv medlem
-      </a>
+      <app-user-menu></app-user-menu>
       
       <!-- Mobile Menu Button -->
       <button (click)="toggleMenu()" class="md:hidden w-10 h-10 flex items-center justify-center text-secondary dark:text-white z-50 relative">
@@ -56,11 +54,6 @@
             </a>
           </li>
         }
-        <li class="mt-4">
-          <a routerLink="/medlemmer" (click)="closeMenu()" class="bg-primary hover:bg-amber-600 text-white px-8 py-3 rounded-full font-bold shadow-lg">
-            Bliv medlem
-          </a>
-        </li>
       </ul>
     </div>
   }

@@ -2,11 +2,12 @@ import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@a
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../services/theme.service';
 import { CommonModule } from '@angular/common';
+import { UserMenuComponent } from './user-menu.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule, UserMenuComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',
   styles: [`
