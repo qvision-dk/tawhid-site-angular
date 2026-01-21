@@ -1,18 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PrayerTimesService } from '../../core/services/prayer-times.service';
 
 @Component({
   selector: 'app-prayer-times',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './prayer-times.component.html'
+  templateUrl: './prayer-times.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PrayerTimesComponent {
-  prayers = [
-    { name: 'Fajr', arabic: 'الفجر', time: '05:41' },
-    { name: 'Shoroq', arabic: 'الشروق', time: '08:39' },
-    { name: 'Dhuhr', arabic: 'الظهر', time: '12:14' },
-    { name: 'Asr', arabic: 'العصر', time: '13:34' },
-    { name: 'Maghrib', arabic: 'المغرب', time: '15:49' },
-  ];
+export class PrayerTimesComponent implements OnInit {
+  private readonly prayerTimesService = inject(PrayerTimesService);
+
+  readonly prayers = this.prayerTimesService.prayers;
+  readonly nextPrayer = this.prayerTimesService.nextPrayer;
+  readonly currentDate = this.prayerTimesService.currentDate;
+  readonly loading = this.prayerTimesService.loading;
+  readonly error = this.prayerTimesService.error;
+
+  ngOnInit(): void {
+    // Load prayer times for Copenhagen, Denmark
+    this.prayerTimesService.loadPrayerTimes('Copenhagen', 'Denmark');
+  }
 }
