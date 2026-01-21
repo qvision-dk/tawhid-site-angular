@@ -32,6 +32,7 @@ dist-ssr
 # Angular / Vite cache
 .angular/
 .angular/cache/
+.angular/cache/*
 
 # Vite
 .vite/
