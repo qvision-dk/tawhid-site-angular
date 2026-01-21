@@ -8,4 +8,6 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './footer.component.html'
 })
-export class FooterComponent {}
+export class FooterComponent {
+  readonly currentYear = new Date().getFullYear();
+}
