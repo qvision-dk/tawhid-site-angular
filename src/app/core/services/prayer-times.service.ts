@@ -33,6 +33,7 @@ export interface PrayerTimesResponse {
 })
 export class PrayerTimesService {
   private readonly apiUrl = 'https://api.aladhan.com/v1/timingsByCity';
+  private lastLoadedDate: string | null = null;
   
   readonly prayers = signal<PrayerTime[]>([]);
   readonly nextPrayer = signal<PrayerTime | null>(null);
@@ -43,6 +44,15 @@ export class PrayerTimesService {
   constructor(private http: HttpClient) {}
 
   loadPrayerTimes(city: string = 'Copenhagen', country: string = 'Denmark', date?: string): void {
+    // Check if we already have data for today
+    const today = date || new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    
+    if (this.prayers().length > 0 && this.lastLoadedDate === today && !date) {
+      // Data already loaded for today, just recalculate next prayer
+      this.calculateNextPrayer(this.prayers());
+      return;
+    }
+
     this.loading.set(true);
     this.error.set(null);
 
@@ -69,6 +79,7 @@ export class PrayerTimesService {
         next: (prayers) => {
           this.prayers.set(prayers);
           this.calculateNextPrayer(prayers);
+          this.lastLoadedDate = today;
           this.loading.set(false);
         },
         error: () => {
