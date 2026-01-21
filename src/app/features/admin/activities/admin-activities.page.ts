@@ -20,6 +20,9 @@ export class AdminActivitiesPage implements OnInit {
   readonly showCreateForm = signal(false);
   readonly editingActivity = signal<Activity | null>(null);
   readonly activityTypes = signal<ActivityType[]>([]);
+  readonly showDeleteConfirm = signal<boolean>(false);
+  readonly deleting = signal<boolean>(false);
+  readonly activityToDelete = signal<{ id: string; title: string } | null>(null);
 
   ngOnInit(): void {
     this.service.loadAll();
@@ -59,13 +62,29 @@ export class AdminActivitiesPage implements OnInit {
     }
   }
 
-  async confirmDelete(id: string, title: string): Promise<void> {
-    if (confirm(`Er du sikker på, at du vil slette aktiviteten "${title}"?`)) {
-      try {
-        await this.service.delete(id);
-      } catch (error) {
-        // Error is handled by service
-      }
+  openDeleteConfirm(id: string, title: string): void {
+    this.activityToDelete.set({ id, title });
+    this.showDeleteConfirm.set(true);
+  }
+
+  closeDeleteConfirm(): void {
+    this.showDeleteConfirm.set(false);
+    this.activityToDelete.set(null);
+  }
+
+  async confirmDelete(): Promise<void> {
+    const activity = this.activityToDelete();
+    if (!activity) return;
+
+    this.deleting.set(true);
+    try {
+      await this.service.delete(activity.id);
+      this.closeDeleteConfirm();
+    } catch (error) {
+      // Error is handled by service
+      console.error('Error deleting activity:', error);
+    } finally {
+      this.deleting.set(false);
     }
   }
 

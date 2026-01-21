@@ -90,7 +90,7 @@
                 Rediger
               </button>
               <button
-                (click)="confirmDelete(activity.id, activity.title)"
+                (click)="openDeleteConfirm(activity.id, activity.title)"
                 class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Slet
@@ -106,6 +106,56 @@
   @if(!service.loading() && service.activities().length === 0) {
     <div class="bg-white dark:bg-slate-900 rounded-[2rem] p-12 border border-slate-100 dark:border-slate-800 text-center">
       <p class="text-slate-600 dark:text-slate-400">Ingen aktiviteter endnu</p>
+    </div>
+  }
+
+  <!-- Delete Confirmation Modal -->
+  @if(showDeleteConfirm()) {
+    <div 
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      (click)="closeDeleteConfirm()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="delete-activity-dialog-title"
+      aria-describedby="delete-activity-dialog-description"
+    >
+      <div 
+        class="bg-white dark:bg-slate-900 rounded-[2rem] p-8 max-w-md w-full border border-slate-200 dark:border-slate-700 shadow-2xl"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="text-center space-y-6">
+          <span class="material-icons-round text-red-500 text-6xl">warning</span>
+          <h3 id="delete-activity-dialog-title" class="text-2xl font-display font-bold text-secondary dark:text-white">
+            Slet aktivitet?
+          </h3>
+          <p id="delete-activity-dialog-description" class="text-slate-600 dark:text-slate-400">
+            Er du sikker på, at du vil slette aktiviteten 
+            <strong>{{activityToDelete()?.title}}</strong>? Denne handling kan ikke fortrydes.
+          </p>
+          <div class="flex justify-center gap-4 pt-4">
+            <button
+              (click)="closeDeleteConfirm()"
+              [disabled]="deleting()"
+              class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 px-6 py-3 rounded-full text-sm font-bold transition-colors"
+            >
+              Annuller
+            </button>
+            <button
+              (click)="confirmDelete()"
+              [disabled]="deleting()"
+              class="bg-red-500 hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full text-sm font-bold transition-colors flex items-center gap-2"
+            >
+              @if(deleting()) {
+                <span class="material-icons-round animate-spin">hourglass_empty</span>
+                Sletter...
+              } @else {
+                <span class="material-icons-round">delete_forever</span>
+                Slet permanent
+              }
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   }
 </div>
