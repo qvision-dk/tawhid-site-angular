@@ -1,6 +1,6 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 
@@ -23,12 +23,64 @@ export class ContactService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseAnonKey);
   }
 
+  private trimmedMinLengthValidator(minLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+      const trimmed = control.value.trim();
+      return trimmed.length < minLength
+        ? { minlength: { requiredLength: minLength, actualLength: trimmed.length } }
+        : null;
+    };
+  }
+
+  private trimmedMaxLengthValidator(maxLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+      const trimmed = control.value.trim();
+      return trimmed.length > maxLength
+        ? { maxlength: { requiredLength: maxLength, actualLength: trimmed.length } }
+        : null;
+    };
+  }
+
   createContactForm(): FormGroup {
     return this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      subject: [''],
-      message: ['', Validators.required]
+      name: [
+        '',
+        [
+          Validators.required,
+          this.trimmedMinLengthValidator(2),
+          this.trimmedMaxLengthValidator(100)
+        ]
+      ],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          this.trimmedMaxLengthValidator(254)
+        ]
+      ],
+      subject: [
+        '',
+        [
+          Validators.required,
+          this.trimmedMinLengthValidator(3),
+          this.trimmedMaxLengthValidator(150)
+        ]
+      ],
+      message: [
+        '',
+        [
+          Validators.required,
+          this.trimmedMinLengthValidator(10),
+          this.trimmedMaxLengthValidator(500)
+        ]
+      ]
     });
   }
 
@@ -41,8 +93,8 @@ export class ContactService {
       .from('contact_messages')
       .insert({
         name: formValue.name.trim(),
-        email: formValue.email.trim(),
-        subject: formValue.subject?.trim() || `Kontakt fra ${formValue.name.trim()}`,
+        email: formValue.email.trim().toLowerCase(),
+        subject: formValue.subject.trim(),
         message: formValue.message.trim(),
         status: 'new'
       });

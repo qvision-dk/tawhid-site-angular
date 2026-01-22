@@ -13,7 +13,12 @@ export class ContactFormComponent {
   @Input({ required: true }) form!: FormGroup;
   @Input({ required: true }) showNameError!: boolean;
   @Input({ required: true }) showEmailError!: boolean;
+  @Input({ required: true }) showSubjectError!: boolean;
   @Input({ required: true }) showMessageError!: boolean;
+  @Input({ required: true }) nameErrorMessage!: string;
+  @Input({ required: true }) emailErrorMessage!: string;
+  @Input({ required: true }) subjectErrorMessage!: string;
+  @Input({ required: true }) messageErrorMessage!: string;
   @Input({ required: true }) isSubmitDisabled!: boolean;
   @Input({ required: true }) successMessage!: boolean;
   @Input() errorMessage: string | null = null;

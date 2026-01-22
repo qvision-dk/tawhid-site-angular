@@ -1,6 +1,6 @@
 import { Component, signal, computed, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { ContactHeroComponent } from './components/contact-hero.component';
 import { ContactInfoComponent } from './components/contact-info.component';
 import { ContactFormComponent } from './components/contact-form.component';
@@ -27,6 +27,7 @@ export class ContactComponent {
   readonly isFormInvalid = signal(true);
   readonly showNameError = signal(false);
   readonly showEmailError = signal(false);
+  readonly showSubjectError = signal(false);
   readonly showMessageError = signal(false);
 
   readonly isSubmitDisabled = computed(() => this.isFormInvalid() || this.isSubmitting());
@@ -40,10 +41,12 @@ export class ContactComponent {
       
       const nameControl = this.contactForm.get('name');
       const emailControl = this.contactForm.get('email');
+      const subjectControl = this.contactForm.get('subject');
       const messageControl = this.contactForm.get('message');
       
       this.showNameError.set(nameControl ? nameControl.touched && nameControl.invalid : false);
       this.showEmailError.set(emailControl ? emailControl.touched && emailControl.invalid : false);
+      this.showSubjectError.set(subjectControl ? subjectControl.touched && subjectControl.invalid : false);
       this.showMessageError.set(messageControl ? messageControl.touched && messageControl.invalid : false);
       
       this.cdr.markForCheck();
@@ -55,10 +58,57 @@ export class ContactComponent {
     // Also listen to individual control changes
     this.contactForm.get('name')?.statusChanges.subscribe(updateFormState);
     this.contactForm.get('email')?.statusChanges.subscribe(updateFormState);
+    this.contactForm.get('subject')?.statusChanges.subscribe(updateFormState);
     this.contactForm.get('message')?.statusChanges.subscribe(updateFormState);
     
     // Set initial state
     updateFormState();
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.contactForm.get(controlName);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
+
+    const errors = control.errors;
+
+    if (errors['required']) {
+      switch (controlName) {
+        case 'name': return 'Navn er påkrævet';
+        case 'email': return 'Email er påkrævet';
+        case 'subject': return 'Emne er påkrævet';
+        case 'message': return 'Besked er påkrævet';
+        default: return 'Dette felt er påkrævet';
+      }
+    }
+
+    if (errors['email']) {
+      return 'Indtast en gyldig email-adresse';
+    }
+
+    if (errors['minlength']) {
+      const required = errors['minlength'].requiredLength;
+      switch (controlName) {
+        case 'name': return `Skriv mindst ${required} tegn`;
+        case 'subject': return `Skriv mindst ${required} tegn`;
+        case 'message': return `Skriv mindst ${required} tegn`;
+        default: return `Skriv mindst ${required} tegn`;
+      }
+    }
+
+    if (errors['maxlength']) {
+      const required = errors['maxlength'].requiredLength;
+      switch (controlName) {
+        case 'name': return `Maksimalt ${required} tegn`;
+        case 'email': return `Maksimalt ${required} tegn`;
+        case 'subject': return `Maksimalt ${required} tegn`;
+        case 'message': return `Maksimalt ${required} tegn`;
+        default: return `Maksimalt ${required} tegn`;
+      }
+    }
+
+    return '';
   }
 
   async onSubmit(): Promise<void> {
@@ -68,12 +118,19 @@ export class ContactComponent {
       this.cdr.markForCheck();
 
       try {
-        await this.contactService.saveMessage(this.contactForm.value);
+        const formValue = this.contactForm.value;
+        await this.contactService.saveMessage({
+          name: formValue.name,
+          email: formValue.email,
+          subject: formValue.subject,
+          message: formValue.message
+        });
         
         this.successMessage.set(true);
         this.contactForm.reset();
         this.showNameError.set(false);
         this.showEmailError.set(false);
+        this.showSubjectError.set(false);
         this.showMessageError.set(false);
         
         // Hide success message after 5 seconds
@@ -94,10 +151,12 @@ export class ContactComponent {
       // Update error signals after marking all as touched
       const nameControl = this.contactForm.get('name');
       const emailControl = this.contactForm.get('email');
+      const subjectControl = this.contactForm.get('subject');
       const messageControl = this.contactForm.get('message');
       
       this.showNameError.set(nameControl ? nameControl.invalid : false);
       this.showEmailError.set(emailControl ? emailControl.invalid : false);
+      this.showSubjectError.set(subjectControl ? subjectControl.invalid : false);
       this.showMessageError.set(messageControl ? messageControl.invalid : false);
       this.cdr.markForCheck();
     }
