@@ -1,5 +1,5 @@
 <!-- Contact Form -->
-<div class="mt-12 bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800 relative overflow-hidden">
+<div class="mt-12 bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 relative overflow-hidden">
   <div class="islamic-pattern absolute inset-0 opacity-50 pointer-events-none"></div>
   
   <div class="relative z-10 space-y-10">
@@ -12,7 +12,7 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="space-y-3">
         <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Navn</label>
-        <input formControlName="name" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="Dit navn" type="text"/>
+        <input formControlName="name" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="Dit navn" type="text"/>
         @if(showNameError && nameErrorMessage) {
           <p class="text-red-500 text-xs">{{nameErrorMessage}}</p>
         }
@@ -20,7 +20,7 @@
       
       <div class="space-y-3">
         <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Email</label>
-        <input formControlName="email" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="din@email.dk" type="email"/>
+        <input formControlName="email" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="din@email.dk" type="email"/>
         @if(showEmailError && emailErrorMessage) {
           <p class="text-red-500 text-xs">{{emailErrorMessage}}</p>
         }
@@ -28,7 +28,7 @@
       
       <div class="md:col-span-2 space-y-3">
         <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Emne</label>
-        <input formControlName="subject" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="Hvad handler din henvendelse om?" type="text"/>
+        <input formControlName="subject" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="Hvad handler din henvendelse om?" type="text"/>
         @if(showSubjectError && subjectErrorMessage) {
           <p class="text-red-500 text-xs">{{subjectErrorMessage}}</p>
         }
@@ -36,7 +36,7 @@
       
       <div class="md:col-span-2 space-y-3">
         <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Besked</label>
-        <textarea formControlName="message" class="w-full bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="Skriv din besked her..." rows="6"></textarea>
+        <textarea formControlName="message" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-primary rounded-xl py-4 px-6 text-secondary dark:text-white transition-all" placeholder="Skriv din besked her..." rows="6"></textarea>
         @if(showMessageError && messageErrorMessage) {
           <p class="text-red-500 text-xs">{{messageErrorMessage}}</p>
         }

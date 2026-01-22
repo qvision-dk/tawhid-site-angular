@@ -17,7 +17,7 @@
   @if(!activitiesService.loading() && upcomingActivities().length > 0) {
     <div class="space-y-4 mb-8">
       @for(activity of upcomingActivities(); track activity.id) {
-        <div [class]="'p-5 rounded-2xl border group hover:border-amber-200 dark:hover:border-amber-800 transition-colors cursor-pointer ' + getCardClasses(activity.typeSlug)">
+        <div [class]="'p-5 rounded-2xl border group hover:border-brand/60 dark:hover:border-amber-800 hover:shadow-brand/10 transition-colors cursor-pointer ' + getCardClasses(activity.typeSlug)">
           <div class="flex items-start gap-3 mb-2">
             <div [class]="'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ' + getIconBgClass(activity.typeSlug)">
               <span [class]="'material-icons-round text-sm ' + getIconColorClass(activity.typeSlug)">{{getIconForType(activity.typeSlug)}}</span>

@@ -34,10 +34,13 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-            @for(message of service.messages(); track message.id) {
+            @for(message of service.messages(); track message.id; let i = $index) {
               <tr 
                 [routerLink]="['/admin/contact-messages', message.id]"
-                [class]="'hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors ' + (message.status === 'new' ? 'bg-blue-50/50 dark:bg-blue-900/10' : message.status === 'replied' ? 'opacity-75' : '')"
+                [class]="'hover:bg-slate-100 dark:hover:bg-slate-800/70 cursor-pointer transition-colors ' + 
+                         (i % 2 === 0 ? 'bg-white dark:bg-slate-800/30' : 'bg-slate-50 dark:bg-slate-800/50') + 
+                         (message.status === 'new' ? ' !bg-blue-50/70 dark:!bg-blue-900/20' : '') + 
+                         (message.status === 'replied' ? ' opacity-75' : '')"
                 role="row"
                 tabindex="0"
                 (keydown.enter)="$event.target.click()"

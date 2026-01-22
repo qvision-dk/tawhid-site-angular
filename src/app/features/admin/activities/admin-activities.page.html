@@ -42,7 +42,7 @@
   @if(!service.loading() && service.activities().length > 0) {
     <div class="space-y-4">
       @for(activity of service.activities(); track activity.id) {
-        <div class="bg-white dark:bg-[#1e293b]/50 p-8 rounded-[2rem] border border-slate-100 dark:border-slate-700/50">
+        <div class="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-700">
           <div class="flex items-start justify-between gap-4">
             <div class="flex-1">
               <div class="flex items-center gap-3 mb-3 flex-wrap">
