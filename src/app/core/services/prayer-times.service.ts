@@ -135,6 +135,7 @@ export class PrayerTimesService {
   /**
    * Pure calculation method to determine the next prayer.
    * If all prayers for today have passed, returns tomorrow's Fajr.
+   * Shoroq (sunrise) is excluded from next prayer calculation.
    */
   getNextPrayer(prayers: PrayerTime[], now: Date): PrayerTime | null {
     if (prayers.length === 0) return null;
@@ -142,9 +143,12 @@ export class PrayerTimesService {
     let nextPrayer: PrayerTime | null = null;
     let minDiff = Infinity;
 
-    // Find the next prayer from today's list
+    // Find the next prayer from today's list (excluding Shoroq)
     for (const prayer of prayers) {
       if (!prayer.timestamp) continue;
+      
+      // Skip Shoroq (sunrise) - it's not a prayer time
+      if (prayer.name === 'Shoroq') continue;
 
       const diff = prayer.timestamp.getTime() - now.getTime();
       
