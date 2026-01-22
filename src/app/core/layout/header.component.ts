@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ThemeService } from '../services/theme.service';
+import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserMenuComponent } from './user-menu.component';
 
@@ -22,6 +23,7 @@ import { UserMenuComponent } from './user-menu.component';
 })
 export class HeaderComponent {
   themeService = inject(ThemeService);
+  authService = inject(AuthService);
   readonly isMenuOpen = signal(false);
 
   readonly links = [

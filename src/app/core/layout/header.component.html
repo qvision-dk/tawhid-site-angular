@@ -22,6 +22,14 @@
           </a>
         </li>
       }
+      @if(authService.isAuthenticated()) {
+        <li>
+          <a routerLink="/admin" routerLinkActive="text-primary font-bold" [routerLinkActiveOptions]="{exact: false}" class="hover:text-primary transition-colors relative group py-2">
+            Admin
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+          </a>
+        </li>
+      }
     </ul>
 
     <!-- Actions -->
@@ -51,6 +59,13 @@
           <li>
             <a [routerLink]="link.path" (click)="closeMenu()" routerLinkActive="text-primary font-bold" [routerLinkActiveOptions]="{exact: link.exact}" class="hover:text-primary transition-colors">
               {{link.label}}
+            </a>
+          </li>
+        }
+        @if(authService.isAuthenticated()) {
+          <li>
+            <a routerLink="/admin" (click)="closeMenu()" routerLinkActive="text-primary font-bold" [routerLinkActiveOptions]="{exact: false}" class="hover:text-primary transition-colors">
+              Admin
             </a>
           </li>
         }
