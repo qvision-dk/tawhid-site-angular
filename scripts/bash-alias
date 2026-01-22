@@ -1,0 +1,17 @@
+Se shell-alias (Git Bash / Linux / macOS)
+
+Se alle aktive alias
+alias
+
+Se ét bestemt alias
+alias s
+
+
+Hvis du vil se, hvor de er defineret:
+cat ~/.bashrc
+
+alias dev="npm run start"
+alias dev:clean="npm run start:clean"
+alias reset="npm run reset"
+alias build="npm run build:prod"
+
