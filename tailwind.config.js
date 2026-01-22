@@ -7,13 +7,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#D4AF37",
+        primary: "#3599B0",
         secondary: "#0A192F",
-        "background-light": "#F8FAFC",
+        "background-light": "##F2F0EF", 
         "background-dark": "#020617",
         accent: "#f59e0b",
         brand: {
-          DEFAULT: "#D4AF37",
+          DEFAULT: "#3599B0",
           soft: "#d97706",
         },
         surface: {
