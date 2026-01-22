@@ -15,6 +15,7 @@ module.exports = {
         brand: {
           DEFAULT: "#3599B0",
           soft: "#d97706",
+          gold: "#D4AF37",
         },
         surface: {
           DEFAULT: "#ffffff",
