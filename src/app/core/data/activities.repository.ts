@@ -167,7 +167,7 @@ export class ActivitiesRepository {
     }
     // Handle weekday: include null to allow clearing the field
     if (updateData.weekday !== undefined) {
-      filteredUpdateData.weekday = (updateData.weekday !== null && updateData.weekday !== '') ? updateData.weekday : null;
+      filteredUpdateData.weekday = (updateData.weekday !== null) ? updateData.weekday : null;
     }
     // Handle start_time: include null to allow clearing the field
     if (updateData.start_time !== undefined) {
