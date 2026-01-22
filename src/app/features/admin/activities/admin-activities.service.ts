@@ -44,14 +44,14 @@ export class AdminActivitiesService {
 
   async create(dto: {
     title: string;
-    description?: string;
+    description?: string | null;
     activity_type_id: string;
-    date?: string;
-    weekday?: number;
-    start_time?: string;
-    end_time?: string;
-    location?: string;
-    repeat_badge?: 'weekly' | 'monthly' | 'yearly';
+    date?: string | null;
+    weekday?: number | null;
+    start_time?: string | null;
+    end_time?: string | null;
+    location?: string | null;
+    repeat_badge?: 'weekly' | 'monthly' | 'yearly' | null;
     is_active?: boolean;
   }): Promise<void> {
     this.loading.set(true);
@@ -70,14 +70,14 @@ export class AdminActivitiesService {
 
   async update(id: string, dto: {
     title?: string;
-    description?: string;
+    description?: string | null;
     activity_type_id?: string;
-    date?: string;
-    weekday?: number;
-    start_time?: string;
-    end_time?: string;
-    location?: string;
-    repeat_badge?: 'weekly' | 'monthly' | 'yearly';
+    date?: string | null;
+    weekday?: number | null;
+    start_time?: string | null;
+    end_time?: string | null;
+    location?: string | null;
+    repeat_badge?: 'weekly' | 'monthly' | 'yearly' | null;
     is_active?: boolean;
   }): Promise<void> {
     this.loading.set(true);

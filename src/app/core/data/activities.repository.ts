@@ -6,14 +6,14 @@ import { Activity } from '../../features/activities/models/activity.model';
 
 export interface CreateActivityDto {
   title: string;
-  description?: string;
+  description?: string | null;
   activity_type_id: string; // FK to activity_types.id
-  date?: string;
-  weekday?: number;
-  start_time?: string;
-  end_time?: string;
-  location?: string;
-  repeat_badge?: 'weekly' | 'monthly' | 'yearly';
+  date?: string | null;
+  weekday?: number | null;
+  start_time?: string | null;
+  end_time?: string | null;
+  location?: string | null;
+  repeat_badge?: 'weekly' | 'monthly' | 'yearly' | null;
   is_active?: boolean;
 }
 
@@ -153,16 +153,36 @@ export class ActivitiesRepository {
     }
     
     // Filter to only include valid fields - build object explicitly
+    // Include null values to allow clearing fields
     const filteredUpdateData: Partial<CreateActivityDto> = {};
     if (updateData.title !== undefined && updateData.title !== null) filteredUpdateData.title = updateData.title.trim();
-    if (updateData.description !== undefined && updateData.description !== null && updateData.description.trim()) filteredUpdateData.description = updateData.description.trim();
+    // Handle description: include null to allow clearing the field
+    if (updateData.description !== undefined) {
+      filteredUpdateData.description = (updateData.description && updateData.description.trim()) ? updateData.description.trim() : null;
+    }
     if (updateData.activity_type_id !== undefined && updateData.activity_type_id !== null) filteredUpdateData.activity_type_id = updateData.activity_type_id;
-    if (updateData.date !== undefined && updateData.date !== null && updateData.date !== '') filteredUpdateData.date = updateData.date;
-    if (updateData.weekday !== undefined && updateData.weekday !== null) filteredUpdateData.weekday = updateData.weekday;
-    if (updateData.start_time !== undefined && updateData.start_time !== null && updateData.start_time !== '') filteredUpdateData.start_time = updateData.start_time;
-    if (updateData.end_time !== undefined && updateData.end_time !== null && updateData.end_time !== '') filteredUpdateData.end_time = updateData.end_time;
-    if (updateData.location !== undefined && updateData.location !== null && updateData.location.trim()) filteredUpdateData.location = updateData.location.trim();
-    if (updateData.repeat_badge !== undefined && updateData.repeat_badge !== null) filteredUpdateData.repeat_badge = updateData.repeat_badge;
+    // Handle date: include null to allow clearing the field
+    if (updateData.date !== undefined) {
+      filteredUpdateData.date = (updateData.date && updateData.date !== '') ? updateData.date : null;
+    }
+    // Handle weekday: include null to allow clearing the field
+    if (updateData.weekday !== undefined) {
+      filteredUpdateData.weekday = (updateData.weekday !== null && updateData.weekday !== '') ? updateData.weekday : null;
+    }
+    // Handle start_time: include null to allow clearing the field
+    if (updateData.start_time !== undefined) {
+      filteredUpdateData.start_time = (updateData.start_time && updateData.start_time !== '') ? updateData.start_time : null;
+    }
+    // Handle end_time: include null to allow clearing the field
+    if (updateData.end_time !== undefined) {
+      filteredUpdateData.end_time = (updateData.end_time && updateData.end_time !== '') ? updateData.end_time : null;
+    }
+    // Handle location: include null to allow clearing the field
+    if (updateData.location !== undefined) {
+      filteredUpdateData.location = (updateData.location && updateData.location.trim()) ? updateData.location.trim() : null;
+    }
+    // Handle repeat_badge: include null to allow clearing the field
+    if (updateData.repeat_badge !== undefined) filteredUpdateData.repeat_badge = updateData.repeat_badge || null;
     if (updateData.is_active !== undefined) filteredUpdateData.is_active = updateData.is_active;
     
     const { data, error } = await this.supabase

@@ -18,14 +18,14 @@ export class AdminActivitiesFormComponent implements OnInit {
   @Output() submit = new EventEmitter<{
     id?: string;
     title: string;
-    description?: string;
+    description?: string | null;
     activity_type_id: string;
-    date?: string;
-    weekday?: number;
-    start_time?: string;
-    end_time?: string;
-    location?: string;
-    repeat_badge?: RepeatBadge;
+    date?: string | null;
+    weekday?: number | null;
+    start_time?: string | null;
+    end_time?: string | null;
+    location?: string | null;
+    repeat_badge?: RepeatBadge | null;
     is_active?: boolean;
   }>();
   @Output() cancel = new EventEmitter<void>();
@@ -84,14 +84,14 @@ export class AdminActivitiesFormComponent implements OnInit {
     const payload = {
       ...(this.activity?.id && { id: this.activity.id }),
       title: (value.title && typeof value.title === 'string') ? value.title.trim() : '',
-      description: (value.description && typeof value.description === 'string' && value.description.trim()) ? value.description.trim() : undefined,
+      description: (value.description && typeof value.description === 'string' && value.description.trim()) ? value.description.trim() : null,
       activity_type_id: value.activityTypeId,
-      date: value.date || undefined,
-      weekday: value.weekday !== null && value.weekday !== '' ? Number(value.weekday) : undefined,
-      start_time: value.startTime || undefined,
-      end_time: value.endTime || undefined,
-      location: (value.location && typeof value.location === 'string' && value.location.trim()) ? value.location.trim() : undefined,
-      repeat_badge: value.repeatBadge || undefined,
+      date: value.date || null,
+      weekday: value.weekday !== null && value.weekday !== '' ? Number(value.weekday) : null,
+      start_time: value.startTime || null,
+      end_time: value.endTime || null,
+      location: (value.location && typeof value.location === 'string' && value.location.trim()) ? value.location.trim() : null,
+      repeat_badge: value.repeatBadge && value.repeatBadge.trim() ? value.repeatBadge : null,
       is_active: value.isActive ?? true
     };
 
