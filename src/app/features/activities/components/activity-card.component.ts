@@ -1,25 +1,32 @@
-import { Component, Input, computed, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, computed, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Activity } from '../models/activity.model';
-import { getIconFromSlug } from '../models/activity-icon.model';
+import { ActivityIconsService } from '../data/activity-icons.service';
+import { IconComponent } from '../../../shared/ui/icon.component';
 
 @Component({
   selector: 'app-activity-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   templateUrl: './activity-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCardComponent {
+export class ActivityCardComponent implements OnInit {
   @Input({ required: true }) activity!: Activity;
 
-  readonly iconData = computed(() => getIconFromSlug(this.activity?.iconSlug));
-  readonly icon = computed(() => this.iconData().materialIcon);
-  readonly colorClass = computed(() => this.iconData().colorClass);
-  readonly iconColorClass = computed(() => this.iconData().iconColorClass);
+  private readonly iconsService = inject(ActivityIconsService);
+
+  readonly materialIcon = computed(() => this.iconsService.getMaterialIcon(this.activity?.iconSlug));
+  readonly colorClass = computed(() => this.iconsService.getColorClass(this.materialIcon()));
+  readonly iconColorClass = computed(() => this.iconsService.getIconColorClass(this.materialIcon()));
   readonly day = computed(() => this.formatDay());
   readonly time = computed(() => this.formatTime());
   readonly repeatBadgeText = computed(() => this.getRepeatBadgeText());
+
+  ngOnInit(): void {
+    // Icons service is initialized by ActivitiesService, but ensure it's ready
+    this.iconsService.init();
+  }
 
   private formatDay(): string {
     if (this.activity.repeatBadge === 'weekly' && this.activity.weekday !== undefined) {

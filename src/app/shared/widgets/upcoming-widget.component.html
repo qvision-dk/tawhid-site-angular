@@ -20,7 +20,7 @@
         <div [class]="'p-5 rounded-2xl border group hover:border-brand/60 dark:hover:border-amber-800 hover:shadow-brand/10 transition-colors cursor-pointer ' + getCardClasses(activity)">
           <div class="flex items-start gap-3 mb-2">
             <div [class]="'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ' + getIconBgClass(activity)">
-              <span [class]="'material-icons-round text-sm ' + getIconColorClass(activity)">{{getIconForActivity(activity)}}</span>
+              <app-icon [slug]="getMaterialIcon(activity)" [classNames]="'text-sm ' + getIconColorClass(activity)"></app-icon>
             </div>
             <div class="flex-1 min-w-0">
               <h5 class="text-sm font-bold text-slate-900 dark:text-white mb-1 group-hover:text-primary transition-colors line-clamp-1">{{activity.title}}</h5>
@@ -30,19 +30,19 @@
               <div class="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                 @if(formatDay(activity)) {
                   <span class="flex items-center gap-1">
-                    <span [class]="'material-icons-round text-xs ' + getIconColorClass(activity)">event</span>
+                    <app-icon slug="event" [classNames]="'text-xs ' + getIconColorClass(activity)"></app-icon>
                     {{formatDay(activity)}}
                   </span>
                 }
                 @if(formatTime(activity)) {
                   <span class="flex items-center gap-1">
-                    <span [class]="'material-icons-round text-xs ' + getIconColorClass(activity)">schedule</span>
+                    <app-icon slug="schedule" [classNames]="'text-xs ' + getIconColorClass(activity)"></app-icon>
                     {{formatTime(activity)}}
                   </span>
                 }
                 @if(activity.location) {
                   <span class="flex items-center gap-1">
-                    <span [class]="'material-icons-round text-xs ' + getIconColorClass(activity)">location_on</span>
+                    <app-icon slug="location_on" [classNames]="'text-xs ' + getIconColorClass(activity)"></app-icon>
                     {{activity.location}}
                   </span>
                 }

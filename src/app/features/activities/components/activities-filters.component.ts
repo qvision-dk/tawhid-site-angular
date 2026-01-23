@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityFilter } from '../models/activity-filter.model';
 
@@ -27,8 +27,6 @@ export class ActivitiesFiltersComponent {
   @Input({ required: true }) filters!: ActivityFilter[];
   @Input({ required: true }) activeFilter!: string;
   @Output() filterChange = new EventEmitter<string>();
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   onFilterClick(filter: ActivityFilter) {
     this.filterChange.emit(filter.id);

@@ -1,14 +1,16 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../../environments/environment';
 import { Activity } from '../models/activity.model';
 import { ActivityFilter } from '../models/activity-filter.model';
+import { ActivityIconsService } from './activity-icons.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivitiesService {
   private supabase: SupabaseClient;
+  private readonly iconsService = inject(ActivityIconsService);
   
   readonly activities = signal<Activity[]>([]);
   readonly filters = signal<ActivityFilter[]>([]);
@@ -30,6 +32,8 @@ export class ActivitiesService {
     
     this.loading.set(true);
     try {
+      // Initialize icons service first so icons are available when activities load
+      await this.iconsService.init();
       // Load filters first so activityTypes is available for loadActivities
       await this.loadFilters();
       await this.loadActivities();
@@ -65,7 +69,7 @@ export class ActivitiesService {
       end_time?: string | null;
       location?: string | null;
     }) => {
-      return {
+      const activity = {
         id: item.id,
         title: item.title,
         description: item.description,
@@ -79,6 +83,7 @@ export class ActivitiesService {
         endTime: item.end_time,
         location: item.location
       };
+      return activity;
     });
 
     this.activities.set(mappedActivities);
