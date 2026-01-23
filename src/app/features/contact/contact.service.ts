@@ -95,8 +95,7 @@ export class ContactService {
         name: formValue.name.trim(),
         email: formValue.email.trim().toLowerCase(),
         subject: formValue.subject.trim(),
-        message: formValue.message.trim(),
-        status: 'new'
+        message: formValue.message.trim()
       });
 
     if (error) {
