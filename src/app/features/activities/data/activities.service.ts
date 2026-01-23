@@ -3,7 +3,6 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../../environments/environment';
 import { Activity } from '../models/activity.model';
 import { ActivityFilter } from '../models/activity-filter.model';
-import { ActivityType } from '../models/activity-type.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +30,9 @@ export class ActivitiesService {
     
     this.loading.set(true);
     try {
-      await Promise.all([
-        this.loadActivities(),
-        this.loadFilters()
-      ]);
+      // Load filters first so activityTypes is available for loadActivities
+      await this.loadFilters();
+      await this.loadActivities();
     } finally {
       this.loading.set(false);
     }
@@ -42,7 +40,7 @@ export class ActivitiesService {
 
   private async loadActivities(): Promise<void> {
     const { data, error } = await this.supabase
-      .from('public_activities')
+      .from('activities_public_view')
       .select('*')
       .order('date', { ascending: true, nullsFirst: false })
       .order('weekday', { ascending: true, nullsFirst: false });
@@ -53,40 +51,72 @@ export class ActivitiesService {
     }
 
     // Map Supabase snake_case to camelCase
-    const mappedActivities: Activity[] = (data || []).map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      description: item.description,
-      typeSlug: item.type_slug || item.typeSlug || '',
-      typeLabel: item.type_label || item.typeLabel || '',
-      repeatBadge: item.repeat_badge || item.repeatBadge,
-      date: item.date,
-      weekday: item.weekday,
-      startTime: item.start_time || item.startTime,
-      endTime: item.end_time || item.endTime,
-      location: item.location
-    }));
+    const mappedActivities: Activity[] = (data || []).map((item: {
+      id: string;
+      title: string;
+      description?: string | null;
+      activity_type_id: string;
+      activity_type_label: string;
+      icon_slug?: string | null;
+      repeat_badge?: 'weekly' | 'monthly' | 'yearly' | null;
+      date?: string | null;
+      weekday?: number | null;
+      start_time?: string | null;
+      end_time?: string | null;
+      location?: string | null;
+    }) => {
+      return {
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        activityTypeId: item.activity_type_id,
+        activityTypeLabel: item.activity_type_label,
+        iconSlug: item.icon_slug || undefined,
+        repeatBadge: item.repeat_badge,
+        date: item.date,
+        weekday: item.weekday,
+        startTime: item.start_time,
+        endTime: item.end_time,
+        location: item.location
+      };
+    });
 
     this.activities.set(mappedActivities);
   }
 
   private async loadFilters(): Promise<void> {
+    // Always ensure "Alle" filter is available
+    const filterList: ActivityFilter[] = [
+      { id: 'alle', label: 'Alle' }
+    ];
+
+    // Load activity types from activity_types table
     const { data, error } = await this.supabase
       .from('activity_types')
-      .select('id, slug, label, sort_order')
+      .select('id, label')
       .order('sort_order', { ascending: true, nullsFirst: false });
 
     if (error) {
       console.error('Error loading activity types:', error);
+      this.filters.set(filterList);
       return;
     }
 
-    const types = (data || []) as ActivityType[];
-    const filterList: ActivityFilter[] = [
-      { slug: 'all', label: 'Alle' },
-      ...types.map(type => ({ slug: type.slug, label: type.label }))
-    ];
+    if (!data || data.length === 0) {
+      this.filters.set(filterList);
+      return;
+    }
 
+    // Add activity type filters - use id for filtering, label for display
+    const mappedFilters = data.map((item: {
+      id: string;
+      label: string;
+    }) => ({
+      id: item.id,
+      label: item.label
+    }));
+
+    filterList.push(...mappedFilters);
     this.filters.set(filterList);
   }
 }

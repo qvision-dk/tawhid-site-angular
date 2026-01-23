@@ -27,11 +27,11 @@ export class AdminTypesService {
     }
   }
 
-  async create(slug: string, label: string, sortOrder?: number): Promise<void> {
+  async create(iconSlug: string, label: string, sortOrder?: number): Promise<void> {
     this.loading.set(true);
     this.error.set(null);
     try {
-      await this.repository.create({ slug, label, sort_order: sortOrder });
+      await this.repository.create({ icon_slug: iconSlug, label, sort_order: sortOrder });
       await this.loadAll();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to create activity type';
@@ -42,11 +42,11 @@ export class AdminTypesService {
     }
   }
 
-  async update(slug: string, label?: string, sortOrder?: number): Promise<void> {
+  async update(id: string, iconSlug?: string, label?: string, sortOrder?: number): Promise<void> {
     this.loading.set(true);
     this.error.set(null);
     try {
-      await this.repository.update({ slug, label, sort_order: sortOrder });
+      await this.repository.update({ id, icon_slug: iconSlug, label, sort_order: sortOrder });
       await this.loadAll();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update activity type';
@@ -57,11 +57,11 @@ export class AdminTypesService {
     }
   }
 
-  async delete(slug: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     this.loading.set(true);
     this.error.set(null);
     try {
-      await this.repository.delete(slug);
+      await this.repository.delete(id);
       await this.loadAll();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete activity type';

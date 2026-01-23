@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Activity } from '../../activities/models/activity.model';
+import { ActivityAdmin } from '../../activities/models/activity.model';
 import { ActivityType } from '../../activities/models/activity-type.model';
 import { RepeatBadge } from '../../activities/models/activity.model';
 
@@ -13,7 +13,7 @@ import { RepeatBadge } from '../../activities/models/activity.model';
   templateUrl: './admin-activities.form.html'
 })
 export class AdminActivitiesFormComponent implements OnInit {
-  @Input() activity: Activity | null = null;
+  @Input() activity: ActivityAdmin | null = null;
   @Input() activityTypes: ActivityType[] = [];
   @Output() submit = new EventEmitter<{
     id?: string;
@@ -46,27 +46,23 @@ export class AdminActivitiesFormComponent implements OnInit {
       endTime: [''],
       location: [''],
       repeatBadge: [''],
-      isActive: [true]
+      isActive: [false]
     });
   }
 
   ngOnInit(): void {
     if (this.activity) {
-      // Find matching activity type by slug to preselect correct option when editing
-      const matchedType = this.activityTypes.find(t => t.slug === this.activity!.typeSlug);
-      const activityTypeId = matchedType ? matchedType.id : '';
-
       this.form.patchValue({
         title: this.activity.title,
         description: this.activity.description || '',
-        activityTypeId,
+        activityTypeId: this.activity.activity_type_id,
         date: this.activity.date || '',
         weekday: this.activity.weekday ?? null,
-        startTime: this.activity.startTime ? this.activity.startTime.substring(0, 5) : '',
-        endTime: this.activity.endTime ? this.activity.endTime.substring(0, 5) : '',
+        startTime: this.activity.start_time ? this.activity.start_time.substring(0, 5) : '',
+        endTime: this.activity.end_time ? this.activity.end_time.substring(0, 5) : '',
         location: this.activity.location || '',
-        repeatBadge: this.activity.repeatBadge || '',
-        isActive: this.activity.isActive ?? true
+        repeatBadge: this.activity.repeat_badge || '',
+        isActive: this.activity.is_active ?? false
       });
     }
   }
@@ -92,7 +88,7 @@ export class AdminActivitiesFormComponent implements OnInit {
       end_time: value.endTime || null,
       location: (value.location && typeof value.location === 'string' && value.location.trim()) ? value.location.trim() : null,
       repeat_badge: value.repeatBadge && value.repeatBadge.trim() ? value.repeatBadge : null,
-      is_active: value.isActive ?? true
+      is_active: value.isActive ?? false
     };
 
     this.submit.emit(payload);

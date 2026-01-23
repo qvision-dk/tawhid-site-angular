@@ -47,14 +47,14 @@
             <div class="flex-1">
               <div class="flex items-center gap-3 mb-3 flex-wrap">
                 <h3 class="text-2xl font-display font-bold text-slate-900 dark:text-white">{{activity.title}}</h3>
-                @if(!activity.isActive) {
+                @if(!activity.is_active) {
                   <span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-3 py-1 rounded-full text-[10px] uppercase font-bold">
                     Inaktiv
                   </span>
                 }
-                @if(activity.repeatBadge) {
+                @if(activity.repeat_badge) {
                   <span class="bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full text-[10px] uppercase font-bold text-slate-500 dark:text-slate-300">
-                    {{getRepeatBadgeText(activity.repeatBadge)}}
+                    {{getRepeatBadgeText(activity.repeat_badge)}}
                   </span>
                 }
               </div>
@@ -66,15 +66,15 @@
               }
 
               <div class="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400">
-                <span><strong>Type:</strong> {{activity.typeLabel}}</span>
+                <span><strong>Type:</strong> {{getActivityTypeLabel(activity.activity_type_id)}}</span>
                 @if(activity.date) {
                   <span><strong>Dato:</strong> {{formatDate(activity.date)}}</span>
                 }
-                @if(activity.weekday !== undefined) {
+                @if(activity.weekday !== undefined && activity.weekday !== null) {
                   <span><strong>Ugedag:</strong> {{getWeekdayName(activity.weekday)}}</span>
                 }
-                @if(activity.startTime) {
-                  <span><strong>Tid:</strong> {{formatTime(activity.startTime)}}@if(activity.endTime) { - {{formatTime(activity.endTime)}}}</span>
+                @if(activity.start_time) {
+                  <span><strong>Tid:</strong> {{formatTime(activity.start_time)}}@if(activity.end_time) { - {{formatTime(activity.end_time)}}}</span>
                 }
                 @if(activity.location) {
                   <span><strong>Lokation:</strong> {{activity.location}}</span>

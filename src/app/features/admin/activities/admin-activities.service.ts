@@ -1,6 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { ActivitiesRepository } from '../../../core/data/activities.repository';
-import { Activity } from '../../activities/models/activity.model';
+import { ActivityAdmin } from '../../activities/models/activity.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { Activity } from '../../activities/models/activity.model';
 export class AdminActivitiesService {
   private readonly repository = inject(ActivitiesRepository);
 
-  readonly activities = signal<Activity[]>([]);
+  readonly activities = signal<ActivityAdmin[]>([]);
   readonly loading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
 
@@ -27,7 +27,7 @@ export class AdminActivitiesService {
     }
   }
 
-  async getById(id: string): Promise<Activity | null> {
+  async getById(id: string): Promise<ActivityAdmin | null> {
     this.loading.set(true);
     this.error.set(null);
     try {

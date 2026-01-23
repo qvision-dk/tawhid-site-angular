@@ -1,4 +1,4 @@
 export interface ActivityFilter {
-  slug: string;
+  id: string;
   label: string;
 }

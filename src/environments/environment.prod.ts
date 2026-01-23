@@ -1,4 +1,5 @@
-export const environment = {
-  supabaseUrl: 'https://zlzgymofadtbykuimvkz.supabase.co',
-  supabaseAnonKey: 'sb_publishable_s9g83AsyXV5GhxkbVB365w_p9d0KSYO'
+export const environment = 
+{
+  supabaseUrl: 'https://soygcspvehmitkejtcgu.supabase.co',
+  supabaseAnonKey: 'sb_publishable_grTP6MVx4FnmhoxIJsmb3g_74ZotuZ6'
 };

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ActivitiesService } from '../../features/activities/data/activities.service';
 import { Activity } from '../../features/activities/models/activity.model';
+import { getIconFromSlug } from '../../features/activities/models/activity-icon.model';
 
 @Component({
   selector: 'app-upcoming-widget',
@@ -60,48 +61,34 @@ export class UpcomingWidgetComponent implements OnInit {
     this.activitiesService.init();
   }
 
-  getIconForType(typeSlug: string): string {
-    if (!typeSlug) return 'event';
-    const iconMap: Record<string, string> = {
-      'prayer': 'mosque',
-      'teaching': 'menu_book',
-      'youth': 'groups',
-      'community': 'favorite'
-    };
-    return iconMap[typeSlug.toLowerCase()] || 'event';
+  getIconForActivity(activity: Activity): string {
+    const iconData = getIconFromSlug(activity.iconSlug);
+    return iconData.materialIcon;
   }
 
-  getCardClasses(typeSlug: string): string {
-    if (!typeSlug) return 'bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-800';
-    const colorMap: Record<string, string> = {
-      'prayer': 'bg-amber-50 dark:bg-amber-900/10 border-amber-100 dark:border-amber-900/20',
-      'teaching': 'bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-900/20',
-      'youth': 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-100 dark:border-emerald-900/20',
-      'community': 'bg-pink-50 dark:bg-pink-900/10 border-pink-100 dark:border-pink-900/20'
-    };
-    return colorMap[typeSlug.toLowerCase()] || 'bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-800';
+  getCardClasses(activity: Activity): string {
+    const iconData = getIconFromSlug(activity.iconSlug);
+    // Use a lighter version for card background
+    const bgClass = iconData.colorClass.split(' ')[0];
+    const darkBgClass = iconData.colorClass.split(' ').find(c => c.startsWith('dark:')) || 'dark:bg-slate-800/50';
+    // Create border classes from background - handle both -50 and other shades
+    const borderClass = bgClass.replace('bg-', 'border-').replace(/-50$/, '-100').replace(/-100$/, '-200');
+    const darkBorderClass = darkBgClass.replace('bg-', 'border-');
+    return `${bgClass} ${darkBgClass.replace('/20', '/10')} ${borderClass} ${darkBorderClass}`;
   }
 
-  getIconBgClass(typeSlug: string): string {
-    if (!typeSlug) return 'bg-slate-100 dark:bg-slate-800';
-    const colorMap: Record<string, string> = {
-      'prayer': 'bg-amber-100 dark:bg-amber-900/30',
-      'teaching': 'bg-blue-100 dark:bg-blue-900/30',
-      'youth': 'bg-emerald-100 dark:bg-emerald-900/30',
-      'community': 'bg-pink-100 dark:bg-pink-900/30'
-    };
-    return colorMap[typeSlug.toLowerCase()] || 'bg-slate-100 dark:bg-slate-800';
+  getIconBgClass(activity: Activity): string {
+    const iconData = getIconFromSlug(activity.iconSlug);
+    const bgClass = iconData.colorClass.split(' ')[0];
+    const darkBgClass = iconData.colorClass.split(' ').find(c => c.startsWith('dark:')) || 'dark:bg-slate-800';
+    // Use darker shade for icon background - handle both -50 and other shades
+    const darkerBg = bgClass.replace(/-50$/, '-100').replace(/-100$/, '-200');
+    return `${darkerBg} ${darkBgClass.replace('/20', '/30')}`;
   }
 
-  getIconColorClass(typeSlug: string): string {
-    if (!typeSlug) return 'text-slate-500';
-    const colorMap: Record<string, string> = {
-      'prayer': 'text-amber-500',
-      'teaching': 'text-blue-500',
-      'youth': 'text-emerald-500',
-      'community': 'text-pink-500'
-    };
-    return colorMap[typeSlug.toLowerCase()] || 'text-slate-500';
+  getIconColorClass(activity: Activity): string {
+    const iconData = getIconFromSlug(activity.iconSlug);
+    return iconData.iconColorClass;
   }
 
   formatDay(activity: Activity): string {

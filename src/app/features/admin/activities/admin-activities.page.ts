@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminActivitiesService } from './admin-activities.service';
 import { AdminActivitiesFormComponent } from './admin-activities.form';
 import { ActivityTypesRepository } from '../../../core/data/activity-types.repository';
-import { Activity } from '../../activities/models/activity.model';
+import { ActivityAdmin } from '../../activities/models/activity.model';
 import { ActivityType } from '../../activities/models/activity-type.model';
 
 @Component({
@@ -18,7 +18,7 @@ export class AdminActivitiesPage implements OnInit {
   private readonly typesRepository = inject(ActivityTypesRepository);
 
   readonly showCreateForm = signal(false);
-  readonly editingActivity = signal<Activity | null>(null);
+  readonly editingActivity = signal<ActivityAdmin | null>(null);
   readonly activityTypes = signal<ActivityType[]>([]);
   readonly showDeleteConfirm = signal<boolean>(false);
   readonly deleting = signal<boolean>(false);
@@ -38,7 +38,7 @@ export class AdminActivitiesPage implements OnInit {
     }
   }
 
-  startEdit(activity: Activity): void {
+  startEdit(activity: ActivityAdmin): void {
     this.editingActivity.set(activity);
     this.showCreateForm.set(false);
   }
@@ -108,5 +108,10 @@ export class AdminActivitiesPage implements OnInit {
   getWeekdayName(weekday: number): string {
     const weekdays = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
     return weekdays[weekday] || '';
+  }
+
+  getActivityTypeLabel(activityTypeId: string): string {
+    const type = this.activityTypes().find(t => t.id === activityTypeId);
+    return type?.label || 'Ukendt type';
   }
 }

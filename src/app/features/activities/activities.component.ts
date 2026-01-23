@@ -17,24 +17,28 @@ import { Activity } from './models/activity.model';
 export class ActivitiesComponent implements OnInit {
   private readonly activitiesService = inject(ActivitiesService);
 
-  readonly activeFilter = signal<string>('all');
+  readonly activeFilter = signal<string>('alle');
   readonly filters = this.activitiesService.filters;
   readonly activities = this.activitiesService.activities;
 
   readonly filteredActivities = computed(() => {
-    const filter = this.activeFilter();
+    const filterId = this.activeFilter();
     const allActivities = this.activities();
     
-    if (filter === 'all') return allActivities;
+    // If "alle" is selected, show all activities
+    if (filterId === 'alle' || !filterId) {
+      return allActivities;
+    }
     
-    return allActivities.filter(a => a.typeSlug === filter);
+    // Filter by activity_type_id (UUID comparison)
+    return allActivities.filter(a => a.activityTypeId === filterId);
   });
 
   ngOnInit(): void {
     this.activitiesService.init();
   }
 
-  onFilterChange(filter: string) {
-    this.activeFilter.set(filter);
+  onFilterChange(filterId: string) {
+    this.activeFilter.set(filterId);
   }
 }
