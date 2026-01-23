@@ -68,13 +68,14 @@ export class UpcomingWidgetComponent implements OnInit {
 
   getCardClasses(activity: Activity): string {
     const iconData = getIconFromSlug(activity.iconSlug);
-    // Use a lighter version for card background
+    // Use a lighter version for card background in light mode
     const bgClass = iconData.colorClass.split(' ')[0];
-    const darkBgClass = iconData.colorClass.split(' ').find(c => c.startsWith('dark:')) || 'dark:bg-slate-800/50';
+    // In dark mode, use a darker slate background instead of the light colored backgrounds
+    const darkBgClass = 'dark:bg-slate-800/50';
     // Create border classes from background - handle both -50 and other shades
     const borderClass = bgClass.replace('bg-', 'border-').replace(/-50$/, '-100').replace(/-100$/, '-200');
-    const darkBorderClass = darkBgClass.replace('bg-', 'border-');
-    return `${bgClass} ${darkBgClass.replace('/20', '/10')} ${borderClass} ${darkBorderClass}`;
+    const darkBorderClass = 'dark:border-slate-700';
+    return `${bgClass} ${darkBgClass} ${borderClass} ${darkBorderClass}`;
   }
 
   getIconBgClass(activity: Activity): string {
