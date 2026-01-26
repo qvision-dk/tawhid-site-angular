@@ -1,19 +1,14 @@
 import { Component, signal, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
-/**
- * Admin Login Component
- * 
- * Handles authentication for admin users.
- * Responsibilities:
- * - Form setup and validation
- * - Submit handler
- * - Calls to AuthService
- * - Navigation after successful login
- */
+interface LoginFormValue {
+  email: string;
+  password: string;
+}
+
 @Component({
   selector: 'app-admin-login',
   standalone: true,
@@ -22,20 +17,43 @@ import { AuthService } from '../../../core/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminLoginComponent {
-  private readonly fb = inject(FormBuilder);
+  private readonly fb = inject(NonNullableFormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
   readonly authService = inject(AuthService);
 
   readonly errorMessage = signal<string | null>(null);
-  readonly loginForm: FormGroup;
 
-  constructor() {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+  readonly loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+
+  // Typed control getters
+  get emailControl() {
+    return this.loginForm.controls.email;
+  }
+
+  get passwordControl() {
+    return this.loginForm.controls.password;
+  }
+
+  // Template-friendly error state getters
+  get showEmailError(): boolean {
+    return this.emailControl.invalid && this.emailControl.touched;
+  }
+
+  get showPasswordError(): boolean {
+    return this.passwordControl.invalid && this.passwordControl.touched;
+  }
+
+  get isSubmitDisabled(): boolean {
+    return this.loginForm.invalid || this.authService.loading();
+  }
+
+  get isLoading(): boolean {
+    return this.authService.loading();
   }
 
   async onSubmit(): Promise<void> {
@@ -46,7 +64,7 @@ export class AdminLoginComponent {
     }
 
     this.errorMessage.set(null);
-    const { email, password } = this.loginForm.value;
+    const { email, password }: LoginFormValue = this.loginForm.getRawValue();
 
     const { error } = await this.authService.signIn(email, password);
 
@@ -56,14 +74,12 @@ export class AdminLoginComponent {
       return;
     }
 
-    // Check if user is authenticated
     if (!this.authService.isAuthenticated()) {
       this.errorMessage.set('Login fejlede. Tjek email og password.');
       this.cdr.markForCheck();
       return;
     }
 
-    // Check if user is admin
     if (!this.authService.isAdmin()) {
       this.errorMessage.set('Du har ikke adgang til admin panel.');
       await this.authService.signOut();
@@ -71,7 +87,6 @@ export class AdminLoginComponent {
       return;
     }
 
-    // Redirect to returnUrl or default to /admin
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
     this.router.navigateByUrl(returnUrl);
   }
